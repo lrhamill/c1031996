@@ -200,7 +200,9 @@ class ViewController: UIViewController {
 
         var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
         var path = paths.stringByAppendingPathComponent("ConsentStatus.plist")
-        let save = NSDictionary(contentsOfFile: path)
+        if let save = NSDictionary(contentsOfFile: path) {
+            consented = save["Consented"] as! Bool
+        }
         
         if !consented {
             
@@ -209,7 +211,7 @@ class ViewController: UIViewController {
             
         }
         
-        
+        updateDistance()
         
         // Create a new fetch request
         let fetchRequest = NSFetchRequest(entityName: "Result")

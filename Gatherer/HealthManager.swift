@@ -49,8 +49,6 @@ class HealthManager {
         let lastWeek = today.dateByAddingTimeInterval(-24 * 7 * 60 * 60)
         let interval = NSDateComponents()
         interval.day = 7
-        println(today)
-        println(lastWeek)
         
         // Sample type
         let sampleType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
