@@ -23,6 +23,7 @@
 		559E18051B2B21E6008E7A53 /* ConsentStatus.plist in Resources */ = {isa = PBXBuildFile; fileRef = 559E18041B2B21E6008E7A53 /* ConsentStatus.plist */; };
 		559E18071B305E31008E7A53 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E18061B305E31008E7A53 /* HealthManager.swift */; };
 		55B0144B1B26D60300CEBA93 /* SurveyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0144A1B26D60300CEBA93 /* SurveyTask.swift */; };
+		55BB8C421B4178BD000BDCE5 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB8C411B4178BD000BDCE5 /* BorderButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +93,7 @@
 		559E18041B2B21E6008E7A53 /* ConsentStatus.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ConsentStatus.plist; sourceTree = "<group>"; };
 		559E18061B305E31008E7A53 /* HealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
 		55B0144A1B26D60300CEBA93 /* SurveyTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyTask.swift; sourceTree = "<group>"; };
+		55BB8C411B4178BD000BDCE5 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				5536873A1B2859D100D15932 /* SavedSurveys.xcdatamodeld */,
 				5527FF7A1B3AB080002F5CF1 /* Result.swift */,
 				5596C1141B206A4E0032B08F /* ViewController.swift */,
+				55BB8C411B4178BD000BDCE5 /* BorderButton.swift */,
 				5596C14C1B206E6C0032B08F /* ConsentDocument.swift */,
 				5596C14E1B2075410032B08F /* ConsentTask.swift */,
 				559E18061B305E31008E7A53 /* HealthManager.swift */,
@@ -243,6 +246,9 @@
 						CreatedOnToolsVersion = 6.3.2;
 						DevelopmentTeam = 3K29TKR48J;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.HealthKit = {
 								enabled = 1;
 							};
@@ -324,6 +330,7 @@
 			files = (
 				5596C1151B206A4E0032B08F /* ViewController.swift in Sources */,
 				5596C14F1B2075410032B08F /* ConsentTask.swift in Sources */,
+				55BB8C421B4178BD000BDCE5 /* BorderButton.swift in Sources */,
 				55B0144B1B26D60300CEBA93 /* SurveyTask.swift in Sources */,
 				5596C14D1B206E6C0032B08F /* ConsentDocument.swift in Sources */,
 				5596C1131B206A4E0032B08F /* AppDelegate.swift in Sources */,

@@ -26,11 +26,10 @@ extension ViewController : ORKTaskViewControllerDelegate {
             
             // If the user has come from the consent form, update consent info & HK authentication
             if !self.consented {
-                println("User has exited consent form. Consented: \(consented)")
                 self.consented = true
-                println("User has exited consent form. Consented: \(consented)")
                 
-                taskViewController.dismissViewControllerAnimated(true, completion: authHealthkit)
+                taskViewController.dismissViewControllerAnimated(true, completion: nil)
+//                authHealthkit()
                 return
 
             }
@@ -84,6 +83,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var recentDistance: UILabel!
     
     @IBOutlet weak var recentHappiness: UILabel!
+//    @IBOutlet weak var withdraw: UIButton!
     
     
     var manager = HealthManager()
@@ -137,38 +137,25 @@ class ViewController: UIViewController {
 
     
     func authHealthkit() {
+
+        println("Not determined")
         
-        let authStatus = manager.store.authorizationStatusForType(HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceWalkingRunning))
-        
-        switch authStatus {
-        case .SharingAuthorized:
-            return
+        println("Trying to authorise...")
+        manager.authoriseHK { (success,  error) -> Void in
             
-        case .NotDetermined:
-            println("Not determined")
-            
-            println("Trying to authorise...")
-            manager.authoriseHK { (success,  error) -> Void in
-                
-                if success {
-                    return
-                }
-                else {
-                    println("HealthKit authorization denied!")
-                        var HKwarning = UIAlertController(title: "HealthKit Authorisation", message: "You must authorise HealthKit to continue.", preferredStyle: UIAlertControllerStyle.Alert)
-                        
-                        HKwarning.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
-                        
-                        self.presentViewController(HKwarning, animated: true, completion: nil)
-                        self.HKCheck.text = "You must authorize HealthKit before you can take a survey."
-                
-                }
+            if success {
+                return
             }
+            else {
+                println("HealthKit authorization denied!")
+//                    var HKwarning = UIAlertController(title: "HealthKit Authorisation", message: "You must authorise HealthKit to continue.", preferredStyle: UIAlertControllerStyle.Alert)
+//                    
+//                    HKwarning.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
+//                    
+//                    self.presentViewController(HKwarning, animated: true, completion: nil)
+//                    self.HKCheck.text = "You must authorize HealthKit before you can take a survey."
             
-        case .SharingDenied:
-            
-            return
-            
+            }
         }
 
     }
@@ -180,6 +167,7 @@ class ViewController: UIViewController {
         HKCheck.lineBreakMode = .ByWordWrapping
         HKCheck.numberOfLines = 0
         
+        authHealthkit()
         updateDistance()
         
     }

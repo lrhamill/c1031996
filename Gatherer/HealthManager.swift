@@ -13,7 +13,21 @@ class HealthManager {
     
     var store = HKHealthStore()
     let emptyWriteTypes = Set<NSObject>()
-    let stepReadType = Set(arrayLiteral: HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!)
+    let readTypes = Set(arrayLiteral:
+        
+        HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!,
+        HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceCycling)!,
+        HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!,
+        HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBasalEnergyBurned)!,
+        HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!,
+        HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)!,
+        
+        HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierSleepAnalysis)!,
+        
+        HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierDateOfBirth)!,
+        HKObjectType.characteristicTypeForIdentifier(HKCharacteristicTypeIdentifierBiologicalSex)!
+    
+    )
 
     func authoriseHK(completion: ((success:Bool, error:NSError!) -> Void)!) {
 
@@ -30,12 +44,14 @@ class HealthManager {
             return;
             
         }
-    
-        store.requestAuthorizationToShareTypes(emptyWriteTypes, readTypes: stepReadType) { ( success, error ) -> Void in
+        
+        println(readTypes)
+        store.requestAuthorizationToShareTypes(emptyWriteTypes, readTypes: readTypes) { ( success, error ) -> Void in
             
             if completion != nil {
                 completion(success:success,error:error)
             }
+            println(success)
         
         }
 
