@@ -86,10 +86,30 @@ class ViewController: UIViewController {
 //    @IBOutlet weak var withdraw: UIButton!
     
     
+    var printQuantitySum: (query: HKStatisticsCollectionQuery!, results: HKStatisticsCollection!, error: NSError!) -> Void = {
+        
+        (query, results, error) in
+        
+        println("\(Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit())))")
+        
+    }
+    
     var manager = HealthManager()
     
     func updateDistance() {
-        manager.thisWeekSteps() {
+       
+        let quantityTypes = [
+            
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!,
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceCycling)!,
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!,
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBasalEnergyBurned)!,
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!,
+            HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)!
+            
+        ]
+        
+        manager.weeklyQuantitySum(quantityTypes[0]) {
             query, results, error in
             
             if error != nil {
@@ -97,6 +117,10 @@ class ViewController: UIViewController {
             }
             self.recentDistance.text = "\(Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit())))"
             
+            
+            for item in quantityTypes {
+                self.manager.weeklyQuantitySum(item, completion: self.printQuantitySum)
+            }
         }
     }
     

@@ -57,7 +57,7 @@ class HealthManager {
 
     }
     
-    func thisWeekSteps(completion: ((HKStatisticsCollectionQuery!, HKStatisticsCollection!, NSError!) -> Void)!) {
+    func weeklyQuantitySum(sampleType: HKQuantityType!, completion: ((HKStatisticsCollectionQuery!, HKStatisticsCollection!, NSError!) -> Void)!) {
         
         // Get dates for this week
         let calendar = NSCalendar()
@@ -65,9 +65,6 @@ class HealthManager {
         let lastWeek = today.dateByAddingTimeInterval(-24 * 7 * 60 * 60)
         let interval = NSDateComponents()
         interval.day = 7
-        
-        // Sample type
-        let sampleType = HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)
         
         // Run query
         let query = HKStatisticsCollectionQuery(quantityType: sampleType, quantitySamplePredicate: nil, options: .CumulativeSum, anchorDate: lastWeek, intervalComponents: interval)
