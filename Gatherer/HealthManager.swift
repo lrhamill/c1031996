@@ -45,7 +45,6 @@ class HealthManager {
             
         }
         
-        println(readTypes)
         store.requestAuthorizationToShareTypes(emptyWriteTypes, readTypes: readTypes) { ( success, error ) -> Void in
             
             if completion != nil {
