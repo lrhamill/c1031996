@@ -92,6 +92,10 @@ class ViewController: UIViewController {
     var activeEnergyBurned: Int?
     var sleep: Int?
     
+    var bioSex: String?
+    var age: Int?
+    var BMI: Float?
+    
     
     
     var printQuantitySum: (query: HKStatisticsCollectionQuery!, results: HKStatisticsCollection!, error: NSError!) -> Void = {
@@ -102,6 +106,8 @@ class ViewController: UIViewController {
             println("No value")
             
         } else {
+            
+            
             
             println("\(Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit())))")
         }
@@ -129,16 +135,128 @@ class ViewController: UIViewController {
                 return
             }
             self.recentDistance.text = "\(Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit())))"
+        }
             
+        for item in quantityTypes {
+            self.manager.weeklyQuantitySum(item) {
+                (query, results, error) in
+                
+                switch item {
+                    
+                case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!:
+                    if results.statistics().isEmpty {
+                        
+                        self.stepCount = nil
+                        println("No value")
+                        
+                    } else {
+
+                        self.stepCount = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
+                        println("Step count: \(self.stepCount!)")
+                    }
+                
+                case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceCycling)!:
+                    
+                    if results.statistics().isEmpty {
+                        
+                        self.cycleDistance = nil
+                        println("Cycling: No value")
+                        
+                    } else {
+                        
+                        self.cycleDistance = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
+                        println("Step count: \(self.cycleDistance!)")
             
-            for item in quantityTypes {
-                self.manager.weeklyQuantitySum(item, completion: self.printQuantitySum)
+                    }
+                case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!:
+                    
+                    if results.statistics().isEmpty {
+                        
+                        self.energyConsumed = nil
+                        println("Energy consumed: No value")
+                        
+                    } else {
+                        
+                        self.energyConsumed = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
+                        println("Energy consumed: \(self.energyConsumed!)")
+                        
+                    }
+                
+                case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBasalEnergyBurned)!:
+                    
+                    if results.statistics().isEmpty {
+                        
+                        self.basalEnergyBurned = nil
+                        println("Basal energy burned: No value")
+                        
+                    } else {
+                        
+                        self.basalEnergyBurned = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
+                        println("Basal energy burned: \(self.basalEnergyBurned!)")
+                        
+                    }
+                
+                case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!:
+                    
+                    if results.statistics().isEmpty {
+                        
+                        self.activeEnergyBurned = nil
+                        println("Active energy burned: No value")
+                        
+                    } else {
+                        
+                        self.activeEnergyBurned = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
+                        println("Active energy burned: \(self.activeEnergyBurned!)")
+                        
+                    }
+                default:
+                    println("Type not recognised")
+                }
             }
         }
+        self.manager.weeklySleepAnalysis() {
+            query, results, error in
+            
+            if error != nil {
+                println("Error accessing sleep data")
+                return
+            }
+            
+            if results.isEmpty {
+                println("No sleep data found")
+                return
+            }
+            
+            self.sleep = 0
+            
+            for item in results {
+                
+                let duration = item.endDate!!.timeIntervalSinceDate(item.startDate!!)
+                
+                self.sleep! += Int(duration)
+
+            }
+            
+            println("Sleep: \(self.sleep!)")
+        }
         
-        sleep = self.manager.weeklySleepAnalysis()
+        bioSex = manager.biologicalSex()
         
-        println(sleep)
+        if bioSex != nil {
+            println("Biological sex: \(bioSex!)")
+        } else {
+            println("Biological sex: not set.")
+        }
+        
+        age = manager.age()
+        
+        if age != nil {
+            println("Age: \(age!)")
+        } else {
+            println("Age: Unknown")
+        }
+        
+        
     }
     
     var consented = false {

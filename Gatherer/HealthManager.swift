@@ -76,7 +76,7 @@ class HealthManager {
         
     }
     
-    func weeklySleepAnalysis() -> Int? {
+    func weeklySleepAnalysis(completion: ((HKSampleQuery!, [AnyObject]!, NSError!) -> Void)!) {
         
         var totalSleep: Int?
     
@@ -97,31 +97,51 @@ class HealthManager {
         
         // construct query
         
-        let query = HKSampleQuery(sampleType: sleepType, predicate: combinedPredicate, limit: 0, sortDescriptors: nil) {
-            query, results, error in
-            
-            if error != nil {
-                println("Error accessing sleep data")
-                return
-            }
-            
-            if results.isEmpty {
-                return
-            }
-            
-            totalSleep = 0
-            
-            for item in results {
-                let duration = item.endDate!!.timeIntervalSinceDate(item.startDate!!)
-                
-                totalSleep! += Int(duration)
-            }
-        }
+        let query = HKSampleQuery(sampleType: sleepType, predicate: combinedPredicate, limit: 0, sortDescriptors: nil, resultsHandler: completion)
         
         store.executeQuery(query)
         
-        return totalSleep
+    }
+    
+    func biologicalSex() -> String? {
         
+        let userSex = store.biologicalSexWithError(nil)
         
+        switch userSex!.biologicalSex {
+            
+        case .NotSet:
+            return nil
+        
+        case .Other:
+            return "Other"
+        
+        case .Female:
+            return "Female"
+        
+        case .Male:
+            return "Male"
+            
+        }
+        
+    }
+    
+    func age() -> Int? {
+        
+        let DOB = store.dateOfBirthWithError(nil)
+        
+        if DOB != nil {
+            let calendar = NSCalendar.currentCalendar()
+            let ageComponents = calendar.components(.CalendarUnitYear,
+                fromDate: DOB!,
+                toDate: NSDate(),
+                options: nil)
+            let age = ageComponents.year
+            
+            return age
+        }
+        
+        else {
+            return nil
+        }
     }
 }
