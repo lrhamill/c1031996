@@ -85,6 +85,14 @@ class ViewController: UIViewController {
     @IBOutlet weak var recentHappiness: UILabel!
 //    @IBOutlet weak var withdraw: UIButton!
     
+    var stepCount: Int?
+    var cycleDistance: Int?
+    var energyConsumed: Int?
+    var basalEnergyBurned: Int?
+    var activeEnergyBurned: Int?
+    var sleep: Int?
+    
+    
     
     var printQuantitySum: (query: HKStatisticsCollectionQuery!, results: HKStatisticsCollection!, error: NSError!) -> Void = {
         
@@ -127,6 +135,10 @@ class ViewController: UIViewController {
                 self.manager.weeklyQuantitySum(item, completion: self.printQuantitySum)
             }
         }
+        
+        sleep = self.manager.weeklySleepAnalysis()
+        
+        println(sleep)
     }
     
     var consented = false {

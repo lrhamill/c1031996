@@ -75,4 +75,53 @@ class HealthManager {
         store.executeQuery(query)
         
     }
+    
+    func weeklySleepAnalysis() -> Int? {
+        
+        var totalSleep: Int?
+    
+        let today = NSDate()
+        let lastWeek = today.dateByAddingTimeInterval(-24 * 7 * 60 * 60)
+        
+        let sleepType = HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierSleepAnalysis)
+        
+        // creating a compound predicate for searching
+        
+        let timePredicate = HKQuery.predicateForSamplesWithStartDate(lastWeek, endDate: today, options: .None)
+        
+        let asleepPredicate = HKQuery.predicateForCategorySamplesWithOperatorType(
+            .EqualToPredicateOperatorType,
+            value: HKCategoryValueSleepAnalysis.Asleep.rawValue)
+        
+        let combinedPredicate = NSCompoundPredicate(type: .AndPredicateType, subpredicates: [timePredicate, asleepPredicate])
+        
+        // construct query
+        
+        let query = HKSampleQuery(sampleType: sleepType, predicate: combinedPredicate, limit: 0, sortDescriptors: nil) {
+            query, results, error in
+            
+            if error != nil {
+                println("Error accessing sleep data")
+                return
+            }
+            
+            if results.isEmpty {
+                return
+            }
+            
+            totalSleep! = 0
+            
+            for item in results {
+                let duration = item.endDate!!.timeIntervalSinceDate(item.startDate!!)
+                
+                totalSleep! += Int(duration)
+            }
+        }
+        
+        store.executeQuery(query)
+        
+        return totalSleep
+        
+        
+    }
 }
