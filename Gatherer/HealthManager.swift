@@ -109,7 +109,7 @@ class HealthManager {
                 return
             }
             
-            totalSleep! = 0
+            totalSleep = 0
             
             for item in results {
                 let duration = item.endDate!!.timeIntervalSinceDate(item.startDate!!)
