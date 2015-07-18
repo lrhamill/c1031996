@@ -52,6 +52,8 @@ extension ViewController : ORKTaskViewControllerDelegate {
                     }
                 }
                 
+                transmitJSON(thisResult)
+                
                 recentHappiness.text = String(thisResult)
                 
                 let newItem = NSEntityDescription.insertNewObjectForEntityForName("Result", inManagedObjectContext: self.context!) as! Result
@@ -60,7 +62,6 @@ extension ViewController : ORKTaskViewControllerDelegate {
                 
                 println("\(newItem.date): \(newItem.surveyResult)")
                 taskViewController.dismissViewControllerAnimated(true, completion: nil)
-                updateDistance()
             }
 
             
@@ -320,7 +321,6 @@ class ViewController: UIViewController {
         HKCheck.numberOfLines = 0
         
         authHealthkit()
-        updateDistance()
         
     }
     
@@ -351,8 +351,6 @@ class ViewController: UIViewController {
             
         }
         
-        updateDistance()
-        
         // Create a new fetch request
         let fetchRequest = NSFetchRequest(entityName: "Result")
         
@@ -374,6 +372,9 @@ class ViewController: UIViewController {
     
     
     @IBAction func surveyTapped(sender : AnyObject) {
+        
+        updateDistance()
+        
         let taskViewController = ORKTaskViewController(task: SurveyTask, taskRunUUID: nil)
         taskViewController.delegate = self
         presentViewController(taskViewController, animated: true, completion: nil)
@@ -402,6 +403,106 @@ class ViewController: UIViewController {
 
     }
 
+    func transmitJSON (happiness: Int) {
+        // updateDistance()
+        
+//        var stepCount: Int?
+//        var cycleDistance: Int?
+//        var energyConsumed: Int?
+//        var basalEnergyBurned: Int?
+//        var activeEnergyBurned: Int?
+//        var sleep: Int?
+//        
+//        var bioSex: String?
+//        var age: Int?
+//        var BMI: Double?
+        
+        // Convert optionals into JSON-friendly format
+        
+        let arrayOfIntTypes = [stepCount, cycleDistance, energyConsumed, basalEnergyBurned, activeEnergyBurned, sleep, age]
+        
+        var processedValues = [String]()
+        var jsonValues = [JSON]()
+        let nullJSON = JSON("null")
+        
+        for item in arrayOfIntTypes {
+            if item != nil {
+                let curItem = JSON(item!)
+                jsonValues.append(curItem)
+                processedValues.append("\(item!)")
+            } else {
+                jsonValues.append(nullJSON)
+                processedValues.append("null")
+            }
+        }
+        
+        if bioSex != nil {
+            let sexJSON = JSON(bioSex!)
+            jsonValues.append(sexJSON)
+            processedValues.append("\(bioSex!)")
+        } else {
+            jsonValues.append(nullJSON)
+            processedValues.append("null")
+        }
+        
+        if BMI != nil {
+            let BMIJSON = JSON(BMI!)
+            jsonValues.append(BMIJSON)
+            processedValues.append("\(BMI!)")
+        } else {
+            jsonValues.append(nullJSON)
+            processedValues.append("null")
+        }
+        
+        var jsonPacket: [AnyObject] = [
+            ["ID": UIDevice.currentDevice().identifierForVendor.UUIDString, "Steps": processedValues[0], "Cycle": processedValues[1], "EnergyIn": processedValues[2], "BasalEnergy": processedValues[3], "ActiveEnergy": processedValues[4], "Sleep": processedValues[5]]
+            ]
+        
+        var formatDate: String {
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "dd-MM-yyyy"
+            return dateFormatter.stringFromDate(NSDate())
+        }
+        
+        let jsonString = "{\"ID\": \"\(UIDevice.currentDevice().identifierForVendor.UUIDString)\", \"Date\": \"\(formatDate)\", \"Steps\": \(processedValues[0]), \"Cycle\": \(processedValues[1]), \"EnergyIn\": \(processedValues[2]), \"BasalEnergy\": \(processedValues[3]), \"ActiveEnergy\": \(processedValues[4]), \"Sleep\": \(processedValues[5]), \"Age\": \(processedValues[6]), \"Sex\": \"\(processedValues[7])\", \"BMI\": \(processedValues[8]), \"Happiness\": \(happiness)}"
+        
+        let json: JSON = JSON(jsonString)
+        
+        
 
+        println(json)
+        println(json["Sleep"].intValue)
+        println(json["ID"].stringValue)
+        
+        
+        let url = "https://project.cs.cf.ac.uk/HamillLR/mysqli.php"
+        let username = "c1031996"
+        let password = "Jumbles12"
+        let loginString = NSString(format: "%@:%@", username, password)
+        let loginData: NSData = loginString.dataUsingEncoding(NSUTF8StringEncoding)!
+        let base64LoginString = loginData.base64EncodedStringWithOptions(nil)
+        
+        var request = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5)
+        var response: NSURLResponse?
+        var error: NSError?
+        
+        request.HTTPBody = jsonString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+        request.HTTPMethod = "POST"
+        request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+        
+        // send the request
+        NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+        
+        // look at the response
+        if let httpResponse = response as? NSHTTPURLResponse {
+            println("HTTP response: \(httpResponse.statusCode)")
+        } else {
+            println("No HTTP response")
+        }
+        
+        
+    }
+    
 }
 
