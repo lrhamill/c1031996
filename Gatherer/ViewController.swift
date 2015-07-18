@@ -94,7 +94,7 @@ class ViewController: UIViewController {
     
     var bioSex: String?
     var age: Int?
-    var BMI: Float?
+    var BMI: Double?
     
     
     
@@ -214,6 +214,7 @@ class ViewController: UIViewController {
                 }
             }
         }
+        
         self.manager.weeklySleepAnalysis() {
             query, results, error in
             
@@ -256,7 +257,17 @@ class ViewController: UIViewController {
             println("Age: Unknown")
         }
         
-        
+        manager.getBMI() {
+            (query, results, error) in
+            
+            if results.isEmpty {
+                self.BMI = nil
+                println("BMI: No data")
+            } else {
+                self.BMI = results.first!.quantity!.doubleValueForUnit(HKUnit.countUnit())
+                println("BMI: \(self.BMI!)")
+            }
+        }
     }
     
     var consented = false {
@@ -277,18 +288,6 @@ class ViewController: UIViewController {
             data.setObject(consented, forKey: "Consented")
             data.writeToFile(path, atomically: true)
             
-//            if let path = NSBundle.mainBundle().pathForResource("ConsentStatus", ofType: "plist") {
-//                    if let dict = NSDictionary(contentsOfFile: path) as? Dictionary<String, Bool> {
-//                        
-//                        var newDict = dict
-//                        newDict["Consented"] = consented
-//                        
-//                        ([newDict] as NSArray).writeToFile(path, atomically: false)
-//                        println("Saved successfully.")
-//                    
-//                    
-//                }
-//            }
         }
     }
     
@@ -307,12 +306,6 @@ class ViewController: UIViewController {
             }
             else {
                 println("HealthKit authorization denied!")
-//                    var HKwarning = UIAlertController(title: "HealthKit Authorisation", message: "You must authorise HealthKit to continue.", preferredStyle: UIAlertControllerStyle.Alert)
-//                    
-//                    HKwarning.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Cancel, handler: nil))
-//                    
-//                    self.presentViewController(HKwarning, animated: true, completion: nil)
-//                    self.HKCheck.text = "You must authorize HealthKit before you can take a survey."
             
             }
         }

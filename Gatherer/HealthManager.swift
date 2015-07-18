@@ -76,6 +76,24 @@ class HealthManager {
         
     }
     
+    func getBMI(completion: ((HKSampleQuery!, [AnyObject]!, NSError!) -> Void)!) {
+
+        
+        // Build predictae
+        let past = NSDate.distantPast() as! NSDate
+        let today = NSDate()
+        let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: today, options: .None)
+        
+        // Interested only in the most recent value
+        let sortDescriptor = NSSortDescriptor(key:HKSampleSortIdentifierStartDate, ascending: false)
+        let limit = 1
+        
+        // Build query
+        let BMIQuery = HKSampleQuery(sampleType: HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBodyMassIndex)!, predicate: mostRecentPredicate, limit: limit, sortDescriptors: [sortDescriptor], resultsHandler: completion)
+        
+        store.executeQuery(BMIQuery)
+    }
+    
     func weeklySleepAnalysis(completion: ((HKSampleQuery!, [AnyObject]!, NSError!) -> Void)!) {
         
         var totalSleep: Int?
