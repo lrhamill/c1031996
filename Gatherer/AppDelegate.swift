@@ -84,10 +84,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: UIUserNotificationType.Sound |
             UIUserNotificationType.Alert | UIUserNotificationType.Badge, categories: nil))
         
-        println("Updating steps")
-        var rootViewController = self.window!.rootViewController as! ViewController
-        rootViewController.updateDistance()
-        println("Steps acquired")
         
         return true
     }

@@ -29,15 +29,12 @@ extension ViewController : ORKTaskViewControllerDelegate {
                 self.consented = true
                 
                 taskViewController.dismissViewControllerAnimated(true, completion: nil)
-//                authHealthkit()
                 return
 
             }
-
-            
-        
+ 
             // Otherwise, if the user has come from the survey task,
-            // save the results using Core Data
+            // submit the results
             
             if let resultArray = taskViewController.result.results {
                 
@@ -52,11 +49,51 @@ extension ViewController : ORKTaskViewControllerDelegate {
                     }
                 }
                 
-                transmitJSON(thisResult)
+                let success = transmitJSON(thisResult)
                 
-                recentHappiness.text = String(thisResult)
+                if !success {
+                    
+                    let serverFail = UIAlertController(title: "Unable to send", message: "The app was unable to reach the server. Your internet connection may be unstable, or the server may be down. Please try again later.", preferredStyle: UIAlertControllerStyle.Alert)
+                    
+                    serverFail.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+                    
+                    self.presentViewController(serverFail, animated: true, completion: nil)
+                    
+                    return
+                    
+                }
+                
+                // Set nextDate for survey
+                
+                let calendar = NSCalendar.currentCalendar()
+                
+                let components = calendar.components(NSCalendarUnit.CalendarUnitYear |
+                    NSCalendarUnit.CalendarUnitMonth |
+                    NSCalendarUnit.CalendarUnitDay |
+                    NSCalendarUnit.CalendarUnitHour |
+                    NSCalendarUnit.CalendarUnitMinute |
+                    NSCalendarUnit.CalendarUnitSecond,
+                    fromDate: NSDate()
+                )
+                
+                components.day++
+                components.hour = 16
+                components.minute = 0
+                components.second = 0
+                
+                println(calendar.dateFromComponents(components))
+                nextDate = calendar.dateFromComponents(components)
+                
+                println(nextDate)
+                
+                var localNotification: UILocalNotification = UILocalNotification()
+                localNotification.alertAction = "Complete a survey."
+                localNotification.alertBody = "Launch c1031996 to fill in your next survey."
+                localNotification.fireDate = nextDate!
+                UIApplication.sharedApplication().scheduleLocalNotification(localNotification)
                 
                 let newItem = NSEntityDescription.insertNewObjectForEntityForName("Result", inManagedObjectContext: self.context!) as! Result
+
                 newItem.date = NSDate()
                 newItem.surveyResult = thisResult
                 
@@ -80,11 +117,8 @@ extension ViewController : ORKTaskViewControllerDelegate {
 class ViewController: UIViewController {
     
     @IBOutlet weak var HKCheck: UILabel!
-    
-    @IBOutlet weak var recentDistance: UILabel!
-    
-    @IBOutlet weak var recentHappiness: UILabel!
-//    @IBOutlet weak var withdraw: UIButton!
+
+    @IBOutlet weak var nextSurvey: UILabel!
     
     var stepCount: Int?
     var cycleDistance: Int?
@@ -97,8 +131,51 @@ class ViewController: UIViewController {
     var age: Int?
     var BMI: Double?
     
+    var nextDate: NSDate? {
+        didSet {
+            
+            if nextDate == nil { return }
+            
+            // Save next date
+            
+            var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+            var path = paths.stringByAppendingPathComponent("ConsentStatus.plist")
+            var fileManager = NSFileManager.defaultManager()
+            if (!(fileManager.fileExistsAtPath(path))) {
+                var bundle : String = NSBundle.mainBundle().pathForResource("ConsentStatus", ofType: "plist")!
+                fileManager.copyItemAtPath(bundle, toPath: path, error:nil)
+            }
+            var data : NSMutableDictionary = NSMutableDictionary(contentsOfFile: path)!
+            data.setObject(nextDate!, forKey: "NextSurvey")
+            data.writeToFile(path, atomically: true)
+            
+            // Update UILabel
+            
+            nextSurvey.text! = "Next survey: \(humanReadableNextDate!)"
+            
+        }
+
+    }
     
+    var humanReadableNextDate: String? {
+        
+        // More readable date format
+        
+        if nextDate == nil {
+            return nil
+        }
+        
+        let formatter = NSDateFormatter()
+        formatter.dateStyle = NSDateFormatterStyle.MediumStyle
+        formatter.timeStyle = .ShortStyle
+        
+        return formatter.stringFromDate(nextDate!)
+    }
     
+    var manager = HealthManager()
+    
+    // Code block that can be passed to HealthManager.weeklyQuantitySum to print results.
+    // Used for debugging.
     var printQuantitySum: (query: HKStatisticsCollectionQuery!, results: HKStatisticsCollection!, error: NSError!) -> Void = {
         
         (query, results, error) in
@@ -108,14 +185,10 @@ class ViewController: UIViewController {
             
         } else {
             
-            
-            
             println("\(Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit())))")
         }
         
     }
-    
-    var manager = HealthManager()
     
     func updateDistance() {
        
@@ -129,14 +202,6 @@ class ViewController: UIViewController {
             
         ]
         
-        manager.weeklyQuantitySum(quantityTypes[0]) {
-            query, results, error in
-            
-            if error != nil {
-                return
-            }
-            self.recentDistance.text = "\(Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit())))"
-        }
             
         for item in quantityTypes {
             self.manager.weeklyQuantitySum(item) {
@@ -296,8 +361,9 @@ class ViewController: UIViewController {
 
     
     func authHealthkit() {
-
-        println("Not determined")
+        
+        // Legacy code...
+        // possible use for debugging, necessary if you want to write to HK in future
         
         println("Trying to authorise...")
         manager.authoriseHK { (success,  error) -> Void in
@@ -322,26 +388,28 @@ class ViewController: UIViewController {
         
         authHealthkit()
         
+        if nextDate == nil || nextDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending {
+            nextSurvey.text! = "Survey ready!"
+        } else {
+            nextSurvey.text! = "Next survey: \(humanReadableNextDate!)"
+        }
+        
     }
     
     override func viewDidAppear(animated: Bool) {
+        
+        // Initialise
         super.viewDidAppear(animated)
         
-//        if let path = NSBundle.mainBundle().pathForResource("ConsentStatus", ofType: "plist") {
-//            if let dict = NSDictionary(contentsOfFile: path) as? Dictionary<String, AnyObject> {
-//                
-//                let plist = dict["Consented"] as! Bool
-//                println("plist says: \(plist)")
-//                
-//                consented = dict["Consented"] as! Bool
-//                
-//            }
-//        }
-
+        // Check saved data
         var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
         var path = paths.stringByAppendingPathComponent("ConsentStatus.plist")
+        
+        // Extract consent history
+        
         if let save = NSDictionary(contentsOfFile: path) {
             consented = save["Consented"] as! Bool
+            nextDate = save["NextSurvey"] as? NSDate
         }
         
         if !consented {
@@ -351,13 +419,6 @@ class ViewController: UIViewController {
             
         }
         
-        // Create a new fetch request
-        let fetchRequest = NSFetchRequest(entityName: "Result")
-        
-        // Cast the results to an array
-        if let fetchResults = context!.executeFetchRequest(fetchRequest, error: nil) as? [Result] {
-                //TODO: handle saved results
-        }
     }
     
     func launchConsent() {
@@ -372,6 +433,21 @@ class ViewController: UIViewController {
     
     
     @IBAction func surveyTapped(sender : AnyObject) {
+        
+        if nextDate != nil {
+            let date = NSDate()
+            
+            if nextDate!.compare(date) == NSComparisonResult.OrderedDescending {
+                
+                let tooEarly = UIAlertController(title: "Try Later", message: "You have already completed the task for today. Come back at 4PM or later the day after you complete the task.", preferredStyle: UIAlertControllerStyle.Alert)
+                
+                tooEarly.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in return } ))
+                
+                self.presentViewController(tooEarly, animated: true, completion: nil)
+                
+                return
+            }
+        }
         
         updateDistance()
         
@@ -403,20 +479,8 @@ class ViewController: UIViewController {
 
     }
 
-    func transmitJSON (happiness: Int) {
-        // updateDistance()
-        
-//        var stepCount: Int?
-//        var cycleDistance: Int?
-//        var energyConsumed: Int?
-//        var basalEnergyBurned: Int?
-//        var activeEnergyBurned: Int?
-//        var sleep: Int?
-//        
-//        var bioSex: String?
-//        var age: Int?
-//        var BMI: Double?
-        
+    func transmitJSON (happiness: Int) -> Bool {
+
         // Convert optionals into JSON-friendly format
         
         let arrayOfIntTypes = [stepCount, cycleDistance, energyConsumed, basalEnergyBurned, activeEnergyBurned, sleep, age]
@@ -454,25 +518,15 @@ class ViewController: UIViewController {
             processedValues.append("null")
         }
         
-        var jsonPacket: [AnyObject] = [
-            ["ID": UIDevice.currentDevice().identifierForVendor.UUIDString, "Steps": processedValues[0], "Cycle": processedValues[1], "EnergyIn": processedValues[2], "BasalEnergy": processedValues[3], "ActiveEnergy": processedValues[4], "Sleep": processedValues[5]]
-            ]
-        
         var formatDate: String {
             let dateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "dd-MM-yyyy"
             return dateFormatter.stringFromDate(NSDate())
         }
         
+        // Construct JSON
+        
         let jsonString = "{\"ID\": \"\(UIDevice.currentDevice().identifierForVendor.UUIDString)\", \"Date\": \"\(formatDate)\", \"Steps\": \(processedValues[0]), \"Cycle\": \(processedValues[1]), \"EnergyIn\": \(processedValues[2]), \"BasalEnergy\": \(processedValues[3]), \"ActiveEnergy\": \(processedValues[4]), \"Sleep\": \(processedValues[5]), \"Age\": \(processedValues[6]), \"Sex\": \"\(processedValues[7])\", \"BMI\": \(processedValues[8]), \"Happiness\": \(happiness)}"
-        
-        let json: JSON = JSON(jsonString)
-        
-        
-
-        println(json)
-        println(json["Sleep"].intValue)
-        println(json["ID"].stringValue)
         
         
         let url = "https://project.cs.cf.ac.uk/HamillLR/mysqli.php"
@@ -497,8 +551,16 @@ class ViewController: UIViewController {
         // look at the response
         if let httpResponse = response as? NSHTTPURLResponse {
             println("HTTP response: \(httpResponse.statusCode)")
+            
+            if httpResponse.statusCode != 200 {
+                return false
+            } else {
+                return true
+            }
+            
         } else {
             println("No HTTP response")
+            return false
         }
         
         

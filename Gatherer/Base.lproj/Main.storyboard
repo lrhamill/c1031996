@@ -48,6 +48,9 @@
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zOg-Gj-N76" customClass="BorderButton" customModule="c1031996" customModuleProvider="target">
                                 <rect key="frame" x="186" y="205" width="229" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="229" id="qc9-vS-9dX"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Withdraw Consent">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -56,62 +59,33 @@
                                     <action selector="withdrawTapped:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Ipc-Ms-7ki"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Steps taken this week:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJ2-pV-lOd">
-                                <rect key="frame" x="186" y="287" width="229" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next survey" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PIf-ZC-idP">
+                                <rect key="frame" x="255" y="287" width="91" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Most recent happiness rating:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Emj-as-hv9">
-                                <rect key="frame" x="186" y="345" width="229" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yuN-Lf-s9x">
-                                <rect key="frame" x="186" y="316" width="229" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JVY-NG-92U">
-                                <rect key="frame" x="186" y="374" width="229" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="yeV-A2-vi8" firstAttribute="top" secondItem="zOg-Gj-N76" secondAttribute="bottom" constant="8" symbolic="YES" id="4oy-f3-4Bu"/>
                             <constraint firstItem="3zU-1N-zf0" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="7Dq-2W-MwM"/>
-                            <constraint firstItem="yuN-Lf-s9x" firstAttribute="top" secondItem="JJ2-pV-lOd" secondAttribute="bottom" constant="8" symbolic="YES" id="AE9-6s-pEs"/>
-                            <constraint firstItem="JVY-NG-92U" firstAttribute="top" secondItem="Emj-as-hv9" secondAttribute="bottom" constant="8" symbolic="YES" id="AvH-Sj-XSm"/>
-                            <constraint firstItem="zOg-Gj-N76" firstAttribute="top" secondItem="DtS-Oq-DBQ" secondAttribute="bottom" constant="20" id="BpZ-tD-PnS"/>
-                            <constraint firstItem="JJ2-pV-lOd" firstAttribute="trailing" secondItem="yuN-Lf-s9x" secondAttribute="trailing" id="CAJ-Cc-nnP"/>
-                            <constraint firstItem="yuN-Lf-s9x" firstAttribute="leading" secondItem="Emj-as-hv9" secondAttribute="leading" id="Cvv-09-VEk"/>
-                            <constraint firstItem="zOg-Gj-N76" firstAttribute="trailing" secondItem="yeV-A2-vi8" secondAttribute="trailing" id="IDo-S1-bnw"/>
                             <constraint firstItem="DtS-Oq-DBQ" firstAttribute="leading" secondItem="3zU-1N-zf0" secondAttribute="leading" id="Lxg-RX-aHh"/>
-                            <constraint firstItem="zOg-Gj-N76" firstAttribute="centerX" secondItem="DtS-Oq-DBQ" secondAttribute="centerX" id="Mr3-zD-raW"/>
-                            <constraint firstItem="yeV-A2-vi8" firstAttribute="top" secondItem="zOg-Gj-N76" secondAttribute="bottom" constant="8" symbolic="YES" id="Vun-rf-zEh"/>
-                            <constraint firstItem="Emj-as-hv9" firstAttribute="trailing" secondItem="yuN-Lf-s9x" secondAttribute="trailing" id="WCW-A0-DmH"/>
-                            <constraint firstItem="JVY-NG-92U" firstAttribute="leading" secondItem="Emj-as-hv9" secondAttribute="leading" id="a4m-N3-kyl"/>
                             <constraint firstItem="DtS-Oq-DBQ" firstAttribute="top" secondItem="3zU-1N-zf0" secondAttribute="bottom" constant="8" symbolic="YES" id="aV6-HM-xdD"/>
-                            <constraint firstItem="Emj-as-hv9" firstAttribute="top" secondItem="yuN-Lf-s9x" secondAttribute="bottom" constant="8" symbolic="YES" id="bDI-6X-CV6"/>
+                            <constraint firstItem="zOg-Gj-N76" firstAttribute="centerX" secondItem="DtS-Oq-DBQ" secondAttribute="centerX" id="c8T-1N-7Y0"/>
                             <constraint firstItem="DtS-Oq-DBQ" firstAttribute="trailing" secondItem="3zU-1N-zf0" secondAttribute="trailing" id="cJX-pt-Bh9"/>
-                            <constraint firstItem="JJ2-pV-lOd" firstAttribute="top" secondItem="yeV-A2-vi8" secondAttribute="bottom" constant="8" symbolic="YES" id="fMp-p0-oQY"/>
                             <constraint firstItem="DtS-Oq-DBQ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="fjK-h9-tln"/>
-                            <constraint firstItem="yeV-A2-vi8" firstAttribute="leading" secondItem="zOg-Gj-N76" secondAttribute="leading" id="gh3-fy-06i"/>
-                            <constraint firstItem="JJ2-pV-lOd" firstAttribute="leading" secondItem="yeV-A2-vi8" secondAttribute="leading" id="l8F-3L-ZlZ"/>
-                            <constraint firstItem="JJ2-pV-lOd" firstAttribute="trailing" secondItem="yeV-A2-vi8" secondAttribute="trailing" id="o3W-b2-dpd"/>
+                            <constraint firstItem="zOg-Gj-N76" firstAttribute="leading" secondItem="yeV-A2-vi8" secondAttribute="leading" id="i4i-dH-bga"/>
                             <constraint firstItem="3zU-1N-zf0" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="qnv-tg-gM8"/>
-                            <constraint firstItem="yuN-Lf-s9x" firstAttribute="leading" secondItem="JJ2-pV-lOd" secondAttribute="leading" id="sVg-Mt-r8X"/>
-                            <constraint firstItem="JVY-NG-92U" firstAttribute="trailing" secondItem="Emj-as-hv9" secondAttribute="trailing" id="uxD-kV-dUD"/>
+                            <constraint firstItem="PIf-ZC-idP" firstAttribute="top" secondItem="yeV-A2-vi8" secondAttribute="bottom" constant="8" symbolic="YES" id="rfj-jT-YLY"/>
+                            <constraint firstItem="zOg-Gj-N76" firstAttribute="top" secondItem="DtS-Oq-DBQ" secondAttribute="bottom" constant="20" id="wFp-CA-BbG"/>
+                            <constraint firstItem="zOg-Gj-N76" firstAttribute="trailing" secondItem="yeV-A2-vi8" secondAttribute="trailing" id="xCz-R0-MzY"/>
+                            <constraint firstItem="yeV-A2-vi8" firstAttribute="centerX" secondItem="PIf-ZC-idP" secondAttribute="centerX" id="xWl-Qc-Q8s"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="HKCheck" destination="3zU-1N-zf0" id="8xb-bQ-71G"/>
-                        <outlet property="recentDistance" destination="yuN-Lf-s9x" id="Hyq-pg-gZC"/>
-                        <outlet property="recentHappiness" destination="JVY-NG-92U" id="Bx2-9o-Ox9"/>
+                        <outlet property="nextSurvey" destination="PIf-ZC-idP" id="Kdo-rN-gkI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
