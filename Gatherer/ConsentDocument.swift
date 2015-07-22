@@ -42,7 +42,7 @@ public var consentDocument: ORKConsentDocument {
         
         case .Withdrawing:
             consentSection.summary = "You can withdraw your consent at any time."
-            consentSection.content = "I understand that participation in this study is entirely voluntary and that I can withdraw from the study at any time without giving a reason. Please note that data that has already been provided and anonymised cannot be withdrawn. I understand that I can contact the research team directly via this email address: HamillLR@cardiff.ac.uk"
+            consentSection.content = "I understand that participation in this study is entirely voluntary and that I can withdraw from the study at any time without giving a reason. I understand that I can contact the research team directly via this email address: HamillLR@cardiff.ac.uk"
          
         default:
             println(contentSectionType)

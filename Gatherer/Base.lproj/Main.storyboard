@@ -31,7 +31,7 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="119" id="Yyz-PH-fPR"/>
                                 </constraints>
-                                <string key="text">Welcome. Please note that you must enable access to walk/running distance for this app to function. You can change this under Settings -&gt; Privacy -&gt; Health -&gt; c1031996.</string>
+                                <string key="text">Welcome. Please note that you must enable access to step count for this app to function. You can change this under Settings -&gt; Privacy -&gt; Health -&gt; c1031996.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>

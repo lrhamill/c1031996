@@ -10,81 +10,69 @@ import ResearchKit
 
 public var SurveyTask: ORKOrderedTask {
     
+    // N.B.
+    
     var steps = [ORKStep]()
     
     let instructionStep = ORKInstructionStep(identifier: "IntroStep")
     instructionStep.title = "Survey"
-    instructionStep.text = "Please honestly answer the following questions about your feelings over the past week. Remember that your responses are anonymous."
+    instructionStep.text = "Please honestly answer the following questions about your feelings over the past 24 hours. Remember that your responses are anonymous."
     
     steps += [instructionStep]
     
-    let weeklyNegativeAnswers = [
-        ORKTextChoice(text:"Rarely or None of the Time", value: 4),
-        ORKTextChoice(text:"Some or a Little of the Time", value: 3),
-        ORKTextChoice(text:"Occasionally or a Moderate Amount of the Time", value: 2),
-        ORKTextChoice(text:"Most or All of the Time", value: 1),
+    let positiveAnswers = [
+        ORKTextChoice(text:"None of the Time", value: 1),
+        ORKTextChoice(text:"Rarely", value: 2),
+        ORKTextChoice(text:"Some of the Time", value: 3),
+        ORKTextChoice(text:"Often", value: 4),
+        ORKTextChoice(text:"All of the Time", value: 5),
     ]
     
-    let weeklyPositiveAnswers = [
-        ORKTextChoice(text:"Rarely or None of the Time", value: 1),
-        ORKTextChoice(text:"Some or a Little of the Time", value: 2),
-        ORKTextChoice(text:"Occasionally or a Moderate Amount of the Time", value: 3),
-        ORKTextChoice(text:"Most or All of the Time", value: 4),
-    ]
-    
-    let negativeAnswerFormat: ORKTextChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormatWithStyle(.SingleChoice, textChoices: weeklyNegativeAnswers)
-    
-    let positiveAnswerFormat: ORKTextChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormatWithStyle(.SingleChoice, textChoices: weeklyPositiveAnswers)
+    let positiveAnswerFormat: ORKTextChoiceAnswerFormat = ORKAnswerFormat.choiceAnswerFormatWithStyle(.SingleChoice, textChoices: positiveAnswers)
     
     
-    let weeklyQuestions = [
+    let questions = [
         
-        ORKQuestionStep(identifier: "SQ1", title: "I was bothered by things that don't usually bother me.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ2", title: "I did not feel like eating; my appetite was poor.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ3", title: "I felt that I could not shake off the blues even with help from my family and friends.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ4", title: "I felt that I was just as good as other people.", answer: positiveAnswerFormat),
-        ORKQuestionStep(identifier: "SQ5", title: "I had trouble keeping my mind on what I was doing.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ6", title: "I felt depressed.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ7", title: "I felt that everything I did was an effort.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ8", title: "I felt hopeful about the future.", answer: positiveAnswerFormat),
-        ORKQuestionStep(identifier: "SQ9", title: "I thought my life had been a failure.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ10", title: "I felt fearful.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ11", title: "My sleep was restless.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ12", title: "I was happy.", answer:positiveAnswerFormat),
-        ORKQuestionStep(identifier: "SQ13", title: "I talked less than usual.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ14", title: "I felt lonely.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ15", title: "People were unfriendly.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ16", title: "I enjoyed life.", answer: positiveAnswerFormat),
-        ORKQuestionStep(identifier: "SQ17", title: "I had crying spells.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ18", title: "I felt sad.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ19", title: "I felt that people dislike me.", answer: negativeAnswerFormat),
-        ORKQuestionStep(identifier: "SQ20", title: "I could not get 'going'.", answer: negativeAnswerFormat),
+        ORKQuestionStep(identifier: "SQ1", title: "Today, I’ve been feeling optimistic about the future.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ2", title: "Today, I’ve been feeling useful.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ3", title: "Today, I’ve been feeling interested in other people.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ4", title: "Today, I’ve had energy to spare.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ5", title: "Today, I’ve been feeling relaxed.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ6", title: "Today, I’ve been dealing with problems well.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ7", title: "Today, I’ve been thinking clearly.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ8", title: "Today, I’ve been feeling good about myself .", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ9", title: "Today, I’ve been feeling close to other people.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ10", title: "Today, I’ve been feeling confident.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ11", title: "Today, I’ve been able to make up my own mind about things .", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ12", title: "Today, I’ve been feeling loved.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ13", title: "Today, I’ve been interested in new things.", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ14", title: "Today, I’ve been feeling cheerful.", answer: positiveAnswerFormat),
         
     ]
     
     // Set questions to be non-optional
     
-    for item in weeklyQuestions {
+    for item in questions {
         item.optional = false
     }
     
     // Add questions to survey in a randomised order
     
     var indexArray = [Int]()
-    indexArray += 0...19
+    indexArray += 0...(questions.count - 1)
     
     while indexArray.count > 0 {
         
         let rand = Int(arc4random_uniform(UInt32(indexArray.count)))
         let index = indexArray.removeAtIndex(rand)
         
-        steps += [weeklyQuestions[index]]
+        steps += [questions[index]]
         
     }
     
     let summaryStep = ORKCompletionStep(identifier: "SummaryStep")
     summaryStep.title = "Thank You"
-    summaryStep.text = "Thank you for completing this week's survey. Remember to come back next week."
+    summaryStep.text = "Thank you for completing today's survey. Remember to come back next tomorrow."
     steps += [summaryStep]
     
     
