@@ -381,10 +381,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        super.viewDidLoad()
-        
-        HKCheck.lineBreakMode = .ByWordWrapping
-        HKCheck.numberOfLines = 0
+        super.viewDidLoad()        
         
         authHealthkit()
         
