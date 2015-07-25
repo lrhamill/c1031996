@@ -25,6 +25,7 @@
 		55ACFA8F1B5A8D6D00BB05C3 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACFA8E1B5A8D6D00BB05C3 /* SwiftyJSON.swift */; };
 		55B0144B1B26D60300CEBA93 /* SurveyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0144A1B26D60300CEBA93 /* SurveyTask.swift */; };
 		55BB8C421B4178BD000BDCE5 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB8C411B4178BD000BDCE5 /* BorderButton.swift */; };
+		55CA91E51B63F54D009922CC /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CA91E41B63F54D009922CC /* GraphViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,6 +97,7 @@
 		55ACFA8E1B5A8D6D00BB05C3 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		55B0144A1B26D60300CEBA93 /* SurveyTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyTask.swift; sourceTree = "<group>"; };
 		55BB8C411B4178BD000BDCE5 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderButton.swift; sourceTree = "<group>"; };
+		55CA91E41B63F54D009922CC /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +149,7 @@
 				5596C1121B206A4E0032B08F /* AppDelegate.swift */,
 				5536873A1B2859D100D15932 /* SavedSurveys.xcdatamodeld */,
 				5527FF7A1B3AB080002F5CF1 /* Result.swift */,
+				55CA91E41B63F54D009922CC /* GraphViewController.swift */,
 				5596C1141B206A4E0032B08F /* ViewController.swift */,
 				55ACFA8E1B5A8D6D00BB05C3 /* SwiftyJSON.swift */,
 				55BB8C411B4178BD000BDCE5 /* BorderButton.swift */,
@@ -339,6 +342,7 @@
 				5596C14D1B206E6C0032B08F /* ConsentDocument.swift in Sources */,
 				5596C1131B206A4E0032B08F /* AppDelegate.swift in Sources */,
 				5536873C1B2859D100D15932 /* SavedSurveys.xcdatamodeld in Sources */,
+				55CA91E51B63F54D009922CC /* GraphViewController.swift in Sources */,
 				5527FF7B1B3AB080002F5CF1 /* Result.swift in Sources */,
 				559E18071B305E31008E7A53 /* HealthManager.swift in Sources */,
 			);

@@ -73,14 +73,27 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xqx-Gg-xmO" customClass="BorderButton" customModule="c1031996" customModuleProvider="target">
+                                <rect key="frame" x="186" y="264" width="229" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="Graph View">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="r0c-8I-oxe" kind="show" id="jRq-yW-It8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="yeV-A2-vi8" firstAttribute="trailing" secondItem="zOg-Gj-N76" secondAttribute="trailing" id="09U-o2-RKp"/>
                             <constraint firstItem="zOg-Gj-N76" firstAttribute="leading" secondItem="yeV-A2-vi8" secondAttribute="leading" id="1e0-kL-HLY"/>
+                            <constraint firstItem="Xqx-Gg-xmO" firstAttribute="trailing" secondItem="yeV-A2-vi8" secondAttribute="trailing" id="3uj-FB-MvI"/>
                             <constraint firstAttribute="centerX" secondItem="DtS-Oq-DBQ" secondAttribute="centerX" id="50V-0C-xvj"/>
+                            <constraint firstItem="Xqx-Gg-xmO" firstAttribute="top" secondItem="PIf-ZC-idP" secondAttribute="bottom" constant="8" symbolic="YES" id="EGI-Qn-R4u"/>
                             <constraint firstItem="DtS-Oq-DBQ" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="Kxo-fW-L5n"/>
                             <constraint firstItem="zOg-Gj-N76" firstAttribute="centerX" secondItem="DtS-Oq-DBQ" secondAttribute="centerX" id="QSi-bD-4tZ"/>
+                            <constraint firstItem="Xqx-Gg-xmO" firstAttribute="leading" secondItem="yeV-A2-vi8" secondAttribute="leading" id="RTt-E5-6zm"/>
                             <constraint firstItem="PIf-ZC-idP" firstAttribute="centerX" secondItem="yeV-A2-vi8" secondAttribute="centerX" id="X3E-JC-uYm"/>
                             <constraint firstItem="yeV-A2-vi8" firstAttribute="top" secondItem="zOg-Gj-N76" secondAttribute="bottom" constant="8" symbolic="YES" id="XpB-qd-QBw"/>
                             <constraint firstItem="DtS-Oq-DBQ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="Y1t-K9-OK2"/>
@@ -96,7 +109,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-101" y="371"/>
+            <point key="canvasLocation" x="-253" y="152"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="n0V-UT-dM7">
+            <objects>
+                <viewController id="r0c-8I-oxe" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bkW-fo-Nqp"/>
+                        <viewControllerLayoutGuide type="bottom" id="NFh-3w-Oev"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dYw-TY-X3K">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ans-iq-em7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="382" y="152"/>
         </scene>
     </scenes>
 </document>
