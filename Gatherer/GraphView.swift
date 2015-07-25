@@ -79,10 +79,56 @@ import UIKit
             endPoint,
             0)
         
+        //Sample data
+        sampleHappyData = genRandomData(30, type: .HappyData)
+        sampleStepData = genRandomData(30, type: .StepData)
+        
+        
         if sampleStepData == nil || sampleHappyData == nil {
             return
         }
         
+        
+        
+        
+        
+        
+        //calculate the x point
+        
+        let margin:CGFloat = 20.0
+        let graphWidth = width - margin * 2 - 4
+        let maxSteps = maxElement(sampleStepData!)
+        var columnXPoint = { (graphPoint:Int) -> CGFloat in
+            //Calculate gap between points
+            var x:CGFloat = CGFloat(graphPoint) / CGFloat(maxSteps) * graphWidth
+            return x + margin
+        }
+        
+        // calculate the y point
+        
+        let topBorder:CGFloat = 60
+        let bottomBorder:CGFloat = 50
+        let graphHeight = height - topBorder - bottomBorder
+        let maxValue = maxElement(sampleHappyData!)
+        var columnYPoint = { (graphPoint:Int) -> CGFloat in
+            var y:CGFloat = CGFloat(graphPoint) /
+                CGFloat(maxValue) * graphHeight
+            y = graphHeight + topBorder - y // Flip the graph
+            return y
+        }
+        
+
+        
+        for i in 0..<sampleHappyData!.count {
+            var point = CGPoint(x:columnXPoint(sampleStepData![i]), y:columnYPoint(sampleHappyData![i]))
+            point.x -= 5.0/2
+            point.y -= 5.0/2
+            
+            let circle = UIBezierPath(ovalInRect:
+                CGRect(origin: point,
+                    size: CGSize(width: 5.0, height: 5.0)))
+            circle.fill()
+        }
         
     
     }
