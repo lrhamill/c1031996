@@ -26,6 +26,7 @@
 		55B0144B1B26D60300CEBA93 /* SurveyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0144A1B26D60300CEBA93 /* SurveyTask.swift */; };
 		55BB8C421B4178BD000BDCE5 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB8C411B4178BD000BDCE5 /* BorderButton.swift */; };
 		55CA91E51B63F54D009922CC /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CA91E41B63F54D009922CC /* GraphViewController.swift */; };
+		55CA91E91B63F66B009922CC /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CA91E81B63F66B009922CC /* GraphView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		55B0144A1B26D60300CEBA93 /* SurveyTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyTask.swift; sourceTree = "<group>"; };
 		55BB8C411B4178BD000BDCE5 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderButton.swift; sourceTree = "<group>"; };
 		55CA91E41B63F54D009922CC /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		55CA91E81B63F66B009922CC /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 				5596C14E1B2075410032B08F /* ConsentTask.swift */,
 				559E18061B305E31008E7A53 /* HealthManager.swift */,
 				5596C1161B206A4E0032B08F /* Main.storyboard */,
+				55CA91E81B63F66B009922CC /* GraphView.swift */,
 				5596C1191B206A4E0032B08F /* Images.xcassets */,
 				5596C11B1B206A4E0032B08F /* LaunchScreen.xib */,
 				5596C1101B206A4E0032B08F /* Supporting Files */,
@@ -345,6 +348,7 @@
 				55CA91E51B63F54D009922CC /* GraphViewController.swift in Sources */,
 				5527FF7B1B3AB080002F5CF1 /* Result.swift in Sources */,
 				559E18071B305E31008E7A53 /* HealthManager.swift in Sources */,
+				55CA91E91B63F66B009922CC /* GraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

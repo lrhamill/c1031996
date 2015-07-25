@@ -122,7 +122,27 @@
                     <view key="view" contentMode="scaleToFill" id="dYw-TY-X3K">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Izc-CK-CCK" customClass="GraphView" customModule="c1031996" customModuleProvider="target">
+                                <rect key="frame" x="16" y="72" width="568" height="434"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                        <color key="value" red="1" green="0.91611248574665727" blue="0.9504350594030212" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                        <color key="value" red="1" green="0.46531153780000001" blue="0.1743521351" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Izc-CK-CCK" firstAttribute="top" secondItem="bkW-fo-Nqp" secondAttribute="bottom" constant="8" symbolic="YES" id="L6B-0A-bd4"/>
+                            <constraint firstItem="Izc-CK-CCK" firstAttribute="trailing" secondItem="dYw-TY-X3K" secondAttribute="trailingMargin" id="SG4-yb-ohf"/>
+                            <constraint firstItem="Izc-CK-CCK" firstAttribute="leading" secondItem="dYw-TY-X3K" secondAttribute="leadingMargin" id="pjh-v2-nJI"/>
+                            <constraint firstItem="NFh-3w-Oev" firstAttribute="top" secondItem="Izc-CK-CCK" secondAttribute="bottom" constant="94" id="zYy-XA-8UL"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ans-iq-em7" userLabel="First Responder" sceneMemberID="firstResponder"/>
