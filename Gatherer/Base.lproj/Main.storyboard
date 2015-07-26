@@ -111,10 +111,10 @@
             </objects>
             <point key="canvasLocation" x="-253" y="152"/>
         </scene>
-        <!--View Controller-->
+        <!--Graph View Controller-->
         <scene sceneID="n0V-UT-dM7">
             <objects>
-                <viewController id="r0c-8I-oxe" sceneMemberID="viewController">
+                <viewController id="r0c-8I-oxe" customClass="GraphViewController" customModule="c1031996" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bkW-fo-Nqp"/>
                         <viewControllerLayoutGuide type="bottom" id="NFh-3w-Oev"/>
@@ -125,7 +125,57 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Izc-CK-CCK" customClass="GraphView" customModule="c1031996" customModuleProvider="target">
                                 <rect key="frame" x="16" y="72" width="568" height="434"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Happiness with:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0IC-3Y-QS2">
+                                        <rect key="frame" x="8" y="8" width="123" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="steps" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utB-ky-5aX">
+                                        <rect key="frame" x="135" y="8" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="70" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wk7-eV-FxI">
+                                        <rect key="frame" x="548" y="50" width="20" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1ks-zI-W41">
+                                        <rect key="frame" x="279" y="390" width="10" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lBj-bj-w64">
+                                        <rect key="frame" x="548" y="390" width="10" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S4R-of-hTk">
+                                        <rect key="frame" x="18" y="390" width="10" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Wk7-eV-FxI" firstAttribute="top" secondItem="Izc-CK-CCK" secondAttribute="top" constant="50" id="Kty-E7-oNa"/>
+                                    <constraint firstAttribute="bottom" secondItem="1ks-zI-W41" secondAttribute="bottom" constant="23" id="PCz-ON-PpH"/>
+                                    <constraint firstAttribute="trailing" secondItem="lBj-bj-w64" secondAttribute="trailing" constant="10" id="Vk2-py-1w4"/>
+                                    <constraint firstAttribute="bottom" secondItem="lBj-bj-w64" secondAttribute="bottom" constant="23" id="ckl-Lw-2jD"/>
+                                    <constraint firstAttribute="centerX" secondItem="1ks-zI-W41" secondAttribute="centerX" id="di4-ID-2SW"/>
+                                    <constraint firstItem="0IC-3Y-QS2" firstAttribute="leading" secondItem="Izc-CK-CCK" secondAttribute="leadingMargin" id="jHK-Fa-SSl"/>
+                                    <constraint firstItem="0IC-3Y-QS2" firstAttribute="top" secondItem="Izc-CK-CCK" secondAttribute="topMargin" id="mHZ-i3-rxA"/>
+                                    <constraint firstAttribute="bottom" secondItem="S4R-of-hTk" secondAttribute="bottom" constant="23" id="qNL-R7-KOK"/>
+                                    <constraint firstAttribute="trailing" secondItem="Wk7-eV-FxI" secondAttribute="trailing" id="tRp-g2-uYk"/>
+                                    <constraint firstItem="S4R-of-hTk" firstAttribute="leading" secondItem="Izc-CK-CCK" secondAttribute="leading" constant="18" id="uem-SW-jSH"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
                                         <color key="value" red="1" green="0.91611248574665727" blue="0.9504350594030212" alpha="1" colorSpace="calibratedRGB"/>
@@ -144,6 +194,12 @@
                             <constraint firstItem="NFh-3w-Oev" firstAttribute="top" secondItem="Izc-CK-CCK" secondAttribute="bottom" constant="94" id="zYy-XA-8UL"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="graph" destination="Izc-CK-CCK" id="9oT-Qt-Bb1"/>
+                        <outlet property="independentVar" destination="utB-ky-5aX" id="w27-s3-vkP"/>
+                        <outlet property="maxIndVar" destination="lBj-bj-w64" id="9xv-Hl-nP3"/>
+                        <outlet property="midIndVar" destination="1ks-zI-W41" id="t5J-Bh-x2v"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ans-iq-em7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

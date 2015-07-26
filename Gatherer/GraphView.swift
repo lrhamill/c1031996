@@ -19,7 +19,7 @@ import UIKit
         case HappyData
     }
     
-    func genRandomData(n: Int, type: dataTypes) -> [Int] {
+    class func genRandomData(n: Int, type: dataTypes) -> [Int] {
         
         // Create random data for testing
         
@@ -44,6 +44,18 @@ import UIKit
     @IBInspectable var startColor: UIColor = UIColor.redColor()
     @IBInspectable var endColor: UIColor = UIColor.greenColor()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+//        sampleStepData = GraphView.genRandomData(30, type: .StepData)
+//        sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
+    }
+    
+    required init(coder decoder: NSCoder) {
+        super.init(coder: decoder)
+        sampleStepData = GraphView.genRandomData(30, type: .StepData)
+        sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
+    }
+
     override func drawRect(rect: CGRect) {
         
         let width = rect.width
@@ -77,21 +89,13 @@ import UIKit
             gradient,
             startPoint,
             endPoint,
-            0)
-        
-        //Sample data
-        sampleHappyData = genRandomData(30, type: .HappyData)
-        sampleStepData = genRandomData(30, type: .StepData)
-        
+            0)        
         
         if sampleStepData == nil || sampleHappyData == nil {
-            return
+            sampleStepData = GraphView.genRandomData(30, type: .StepData)
+            sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
         }
-        
-        
-        
-        
-        
+
         
         //calculate the x point
         
@@ -109,7 +113,7 @@ import UIKit
         let topBorder:CGFloat = 60
         let bottomBorder:CGFloat = 50
         let graphHeight = height - topBorder - bottomBorder
-        let maxValue = maxElement(sampleHappyData!)
+        let maxValue = 70
         var columnYPoint = { (graphPoint:Int) -> CGFloat in
             var y:CGFloat = CGFloat(graphPoint) /
                 CGFloat(maxValue) * graphHeight
@@ -117,7 +121,30 @@ import UIKit
             return y
         }
         
-
+        //Draw horizontal graph lines on the top of everything
+        var linePath = UIBezierPath()
+        
+        //top line
+        linePath.moveToPoint(CGPoint(x:margin, y: topBorder))
+        linePath.addLineToPoint(CGPoint(x: width - margin,
+            y:topBorder))
+        
+        //center line
+        linePath.moveToPoint(CGPoint(x:margin,
+            y: graphHeight/2 + topBorder))
+        linePath.addLineToPoint(CGPoint(x:width - margin,
+            y:graphHeight/2 + topBorder))
+        
+        //bottom line
+        linePath.moveToPoint(CGPoint(x:margin,
+            y:height - bottomBorder))
+        linePath.addLineToPoint(CGPoint(x:width - margin,
+            y:height - bottomBorder))
+        let color = UIColor(white: 1.0, alpha: 0.3)
+        color.setStroke()
+        
+        linePath.lineWidth = 1.0
+        linePath.stroke()
         
         for i in 0..<sampleHappyData!.count {
             var point = CGPoint(x:columnXPoint(sampleStepData![i]), y:columnYPoint(sampleHappyData![i]))
@@ -131,6 +158,20 @@ import UIKit
         }
         
     
+    }
+    
+    func linearRegression() -> Float? {
+        
+        if sampleStepData == nil || sampleHappyData == nil {
+            return nil
+        }
+        
+        let n = sampleStepData!.count
+
+        
+        return Float(1.0)
+        
+        
     }
     
 }
