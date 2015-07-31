@@ -25,7 +25,16 @@ class GraphViewController : UIViewController {
         maxIndVar.text! = String(maxElement(graph!.sampleStepData!))
         midIndVar.text! = String(maxElement(graph!.sampleStepData!)/2)
         
+        graph!.getBestFit()
         graph!.setNeedsDisplay()
+        
+        if graph!.rSquared == nil {
+            rSquared.text = "r^2: nil"
+        } else {
+            rSquared.text = String(format: "r^2 = %.3f", graph!.rSquared!)
+        }
+        
+        rSquared.setNeedsDisplay()
         
     }
     

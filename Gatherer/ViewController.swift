@@ -29,7 +29,10 @@ extension ViewController : ORKTaskViewControllerDelegate {
                 self.consented = true
                 
                 taskViewController.dismissViewControllerAnimated(true, completion: nil)
+                authHealthkit()
+                
                 return
+                
 
             }
  
@@ -381,9 +384,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        super.viewDidLoad()        
-        
-        authHealthkit()
+        super.viewDidLoad()
         
         if nextDate == nil || nextDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending {
             nextSurvey.text! = "Survey ready!"
