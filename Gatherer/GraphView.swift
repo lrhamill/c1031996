@@ -79,6 +79,7 @@ import UIKit
         var XSq = [Int]()
         
         var i = 0
+        
         for item in sampleStepData! {
             
             XY.append(item * sampleHappyData![i])
@@ -94,9 +95,11 @@ import UIKit
         
         self.intercept = avgY - (self.m! * avgX)
         
-        // Calculate r-squared
+        // Calculating r-squared
         
         var predictedY = [Double]()
+        
+        // Populate array of predicted values from our observed step data and the best fit line
         
         for val in sampleStepData! {
             
@@ -105,22 +108,28 @@ import UIKit
             
         }
         
+        // Now generate array of squared error and difference from mean values
+        
         var squaredError = [Double]()
         var fromMean = [Double]()
         i = 0
         
         for val in sampleHappyData! {
             
+            // Squared error/difference from mean
             let valError = pow( ( Double(val) - predictedY[i] ), 2 )
             let meanDiff = pow( ( Double(val) - avgY ), 2 )
             
             squaredError.append(valError)
             fromMean.append(meanDiff)
+            
             i++
             
         }
         
-        let sumSqErr = squaredError.reduce(0, combine: +)
+        // Run the r-squared formula
+        
+        let sumSqErr = squaredError.reduce(0, combine: +) // Find the sum of an array
         let sumFromMean = fromMean.reduce(0, combine: +)
         
         rSquared = 1 - ( sumSqErr /  sumFromMean )
@@ -242,19 +251,17 @@ import UIKit
         // Calculate line of best fit
         
         getBestFit()
+    
+        // Set up drawing the line
+        
         let bestFit = UIBezierPath()
         
-        println("Intercept: \(self.intercept)")
-        
         let yVal = CGFloat((Double(sampleHappyData!.last!) * self.m!) + self.intercept!) / CGFloat(maxValue) * graphHeight
-
-        
         let bestFitY = graphHeight + topBorder - yVal
-        
-        let maxX = sampleStepData!.reduce(Int.min, combine: { max($0, $1) })
+        let maxX = sampleStepData!.reduce( Int.min, combine: { max($0, $1) } )
         
         let endOfBestFit = CGPoint( x:columnXPoint(maxX), y:bestFitY )
-        println("End of best fit: \(endOfBestFit)")
+
         // Draw line
 
         let startY = graphHeight + topBorder - (CGFloat(intercept!) / CGFloat(maxValue) * graphHeight)
@@ -267,20 +274,6 @@ import UIKit
         bestFit.stroke()
         
     
-    }
-    
-    func linearRegression() -> Float? {
-        
-        if sampleStepData == nil || sampleHappyData == nil {
-            return nil
-        }
-        
-        let n = sampleStepData!.count
-
-        
-        return Float(1.0)
-        
-        
     }
     
 }

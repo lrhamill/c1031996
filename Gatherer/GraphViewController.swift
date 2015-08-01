@@ -18,6 +18,9 @@ class GraphViewController : UIViewController {
     
     @IBOutlet weak var graph: GraphView!
     
+    var toPass: HealthManager!
+    var manager: HealthManager?
+    
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
@@ -42,6 +45,13 @@ class GraphViewController : UIViewController {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         
         graph!.setNeedsDisplay()
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.manager = toPass
         
     }
     

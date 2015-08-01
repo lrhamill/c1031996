@@ -174,6 +174,7 @@ class ViewController: UIViewController {
         
         return formatter.stringFromDate(nextDate!)
     }
+
     
     var manager = HealthManager()
     
@@ -191,6 +192,17 @@ class ViewController: UIViewController {
             println("\(Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit())))")
         }
         
+    }
+    
+    
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if (segue.identifier == "graphSegue") {
+            var svc = segue.destinationViewController as! GraphViewController;
+            
+            svc.toPass = self.manager
+            
+        }
     }
     
     func updateDistance() {
