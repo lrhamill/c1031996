@@ -56,17 +56,17 @@ class HealthManager {
 
     }
     
-    func weeklyQuantitySum(sampleType: HKQuantityType!, completion: ((HKStatisticsCollectionQuery!, HKStatisticsCollection!, NSError!) -> Void)!) {
+    func dailyQuantitySum(sampleType: HKQuantityType!, completion: ((HKStatisticsCollectionQuery!, HKStatisticsCollection!, NSError!) -> Void)!) {
         
         // Get dates for this week
         let calendar = NSCalendar()
         let today = NSDate()
-        let lastWeek = today.dateByAddingTimeInterval(-24 * 7 * 60 * 60)
+        let yesterday = today.dateByAddingTimeInterval(-24 * 60 * 60)
         let interval = NSDateComponents()
         interval.day = 7
         
         // Run query
-        let query = HKStatisticsCollectionQuery(quantityType: sampleType, quantitySamplePredicate: nil, options: .CumulativeSum, anchorDate: lastWeek, intervalComponents: interval)
+        let query = HKStatisticsCollectionQuery(quantityType: sampleType, quantitySamplePredicate: nil, options: .CumulativeSum, anchorDate: yesterday, intervalComponents: interval)
         
         if completion != nil {
             query.initialResultsHandler = completion
@@ -94,18 +94,18 @@ class HealthManager {
         store.executeQuery(BMIQuery)
     }
     
-    func weeklySleepAnalysis(completion: ((HKSampleQuery!, [AnyObject]!, NSError!) -> Void)!) {
+    func dailySleepAnalysis(completion: ((HKSampleQuery!, [AnyObject]!, NSError!) -> Void)!) {
         
         var totalSleep: Int?
     
         let today = NSDate()
-        let lastWeek = today.dateByAddingTimeInterval(-24 * 7 * 60 * 60)
+        let yesterday = today.dateByAddingTimeInterval(-24 * 60 * 60)
         
         let sleepType = HKObjectType.categoryTypeForIdentifier(HKCategoryTypeIdentifierSleepAnalysis)
         
         // creating a compound predicate for searching
         
-        let timePredicate = HKQuery.predicateForSamplesWithStartDate(lastWeek, endDate: today, options: .None)
+        let timePredicate = HKQuery.predicateForSamplesWithStartDate(yesterday, endDate: today, options: .None)
         
         let asleepPredicate = HKQuery.predicateForCategorySamplesWithOperatorType(
             .EqualToPredicateOperatorType,

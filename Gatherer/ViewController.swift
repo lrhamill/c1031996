@@ -174,7 +174,7 @@ class ViewController: UIViewController {
     
     var manager = HealthManager()
     
-    // Code block that can be passed to HealthManager.weeklyQuantitySum to print results.
+    // Code block that can be passed to HealthManager.dailyQuantitySum to print results.
     // Used for debugging.
     var printQuantitySum: (query: HKStatisticsCollectionQuery!, results: HKStatisticsCollection!, error: NSError!) -> Void = {
         
@@ -204,7 +204,7 @@ class ViewController: UIViewController {
         
             
         for item in quantityTypes {
-            self.manager.weeklyQuantitySum(item) {
+            self.manager.dailyQuantitySum(item) {
                 (query, results, error) in
                 
                 switch item {
@@ -281,7 +281,7 @@ class ViewController: UIViewController {
             }
         }
         
-        self.manager.weeklySleepAnalysis() {
+        self.manager.dailySleepAnalysis() {
             query, results, error in
             
             if error != nil {
