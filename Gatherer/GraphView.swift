@@ -11,7 +11,7 @@ import UIKit
 
 @IBDesignable class GraphView: UIView {
     
-    var sampleStepData: [Int]?
+    var sampleDVData: [Int]?
     var sampleHappyData: [Int]?
     
     var rSquared: Double?
@@ -51,19 +51,19 @@ import UIKit
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        sampleStepData = GraphView.genRandomData(30, type: .StepData)
+//        sampleDVData = GraphView.genRandomData(30, type: .StepData)
 //        sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
     }
     
     required init(coder decoder: NSCoder) {
         super.init(coder: decoder)
         
-//        sampleStepData = [Int]()
+//        sampleDVData = [Int]()
 //        sampleHappyData = [Int]()
 //        
-//        sampleStepData! += 1...10
+//        sampleDVData! += 1...10
 //        sampleHappyData! += 2...11
-        sampleStepData = GraphView.genRandomData(30, type: .StepData)
+        sampleDVData = GraphView.genRandomData(30, type: .StepData)
         sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
     }
     
@@ -71,7 +71,7 @@ import UIKit
         
         // Calculates gradient (m) and intercept of best fit line
         
-        let avgX = Double( sampleStepData!.reduce(0) { $0 + $1 } ) / Double(sampleStepData!.count)
+        let avgX = Double( sampleDVData!.reduce(0) { $0 + $1 } ) / Double(sampleDVData!.count)
         let avgY = Double( sampleHappyData!.reduce(0) { $0 + $1 } ) / Double(sampleHappyData!.count)
         let avgXavgY = avgX * avgY
         
@@ -80,7 +80,7 @@ import UIKit
         
         var i = 0
         
-        for item in sampleStepData! {
+        for item in sampleDVData! {
             
             XY.append(item * sampleHappyData![i])
             XSq.append(item * item)
@@ -101,7 +101,7 @@ import UIKit
         
         // Populate array of predicted values from our observed step data and the best fit line
         
-        for val in sampleStepData! {
+        for val in sampleDVData! {
             
             let predVal = Double(val) * self.m! + self.intercept!
             predictedY.append(predVal)
@@ -172,14 +172,14 @@ import UIKit
             endPoint,
             0)        
         
-        if sampleStepData == nil || sampleHappyData == nil {
+        if sampleDVData == nil || sampleHappyData == nil {
             
-            sampleStepData = [Int]()
+            sampleDVData = [Int]()
             sampleHappyData = [Int]()
             
-            sampleStepData! += 2...10
+            sampleDVData! += 2...10
             sampleHappyData! += 2...10
-//            sampleStepData = GraphView.genRandomData(30, type: .StepData)
+//            sampleDVData = GraphView.genRandomData(30, type: .StepData)
 //            sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
         }
 
@@ -188,7 +188,7 @@ import UIKit
         
         let margin:CGFloat = 20.0
         let graphWidth = width - margin * 2 - 4
-        let maxSteps = maxElement(sampleStepData!)
+        let maxSteps = maxElement(sampleDVData!)
         var columnXPoint = { (graphPoint:Int) -> CGFloat in
             //Calculate gap between points
             var x:CGFloat = CGFloat(graphPoint) / CGFloat(maxSteps) * graphWidth
@@ -236,9 +236,8 @@ import UIKit
         // Add points
         
         for i in 0..<sampleHappyData!.count {
-            var point = CGPoint(x:columnXPoint(sampleStepData![i]), y:columnYPoint(sampleHappyData![i]))
+            var point = CGPoint(x:columnXPoint(sampleDVData![i]), y:columnYPoint(sampleHappyData![i]))
             
-            println(point)
             point.x -= 5.0/2
             point.y -= 5.0/2
             
@@ -258,7 +257,7 @@ import UIKit
         
         let yVal = CGFloat((Double(sampleHappyData!.last!) * self.m!) + self.intercept!) / CGFloat(maxValue) * graphHeight
         let bestFitY = graphHeight + topBorder - yVal
-        let maxX = sampleStepData!.reduce( Int.min, combine: { max($0, $1) } )
+        let maxX = sampleDVData!.reduce( Int.min, combine: { max($0, $1) } )
         
         let endOfBestFit = CGPoint( x:columnXPoint(maxX), y:bestFitY )
 

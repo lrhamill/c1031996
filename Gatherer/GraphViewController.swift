@@ -25,8 +25,8 @@ class GraphViewController : UIViewController {
         
         super.viewWillAppear(animated)
 
-        maxIndVar.text! = String(maxElement(graph!.sampleStepData!))
-        midIndVar.text! = String(maxElement(graph!.sampleStepData!)/2)
+        maxIndVar.text! = String(maxElement(graph!.sampleDVData!))
+        midIndVar.text! = String(maxElement(graph!.sampleDVData!)/2)
         
         graph!.getBestFit()
         graph!.setNeedsDisplay()
@@ -52,6 +52,24 @@ class GraphViewController : UIViewController {
         super.viewDidLoad()
         
         self.manager = toPass
+        
+        let graphValues = self.manager?.dataForGraph("steps")
+        
+        if let happyVals = graphValues!["happiness"] {
+            if let DVVals = graphValues!["steps"] {
+                if happyVals.count == 0 {
+                    
+                    return
+                    
+                } else {
+                    
+                    graph!.sampleHappyData = graphValues!["happiness"]
+                    graph!.sampleDVData = graphValues!["steps"]
+                    graph!.setNeedsDisplay()
+                    
+                }
+            }
+        }
         
     }
     

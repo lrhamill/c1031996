@@ -220,76 +220,81 @@ class ViewController: UIViewController {
             
         for item in quantityTypes {
             self.manager.dailyQuantitySum(item) {
-                (query, results, error) in
+                (query, result, error) in
                 
                 switch item {
                     
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!:
-                    if results.statistics().isEmpty {
+                    
+                    if let output = result.sumQuantity() {
                         
-                        self.stepCount = nil
-                        println("No value")
+                        self.stepCount = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Steps: \(self.stepCount!)")
                         
                     } else {
-
-                        self.stepCount = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Step count: \(self.stepCount!)")
+                        
+                        self.stepCount = nil
+                        println("Steps: No value")
+                        
                     }
-                
+                    
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceCycling)!:
                     
-                    if results.statistics().isEmpty {
+                    if let output = result.sumQuantity() {
+                        
+                        self.cycleDistance = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Cycling: \(self.cycleDistance!)")
+                        
+                    } else {
                         
                         self.cycleDistance = nil
                         println("Cycling: No value")
                         
-                    } else {
-                        
-                        self.cycleDistance = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Step count: \(self.cycleDistance!)")
-            
                     }
+                    
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!:
                     
-                    if results.statistics().isEmpty {
+                    if let output = result.sumQuantity() {
+                        
+                        self.energyConsumed = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Energy consumed: \(self.energyConsumed!)")
+                        
+                    } else {
                         
                         self.energyConsumed = nil
                         println("Energy consumed: No value")
                         
-                    } else {
-                        
-                        self.energyConsumed = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Energy consumed: \(self.energyConsumed!)")
-                        
                     }
-                
+                    
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBasalEnergyBurned)!:
                     
-                    if results.statistics().isEmpty {
+                    if let output = result.sumQuantity() {
+                        
+                        self.basalEnergyBurned = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Basal energy burned: \(self.basalEnergyBurned!)")
+                        
+                    } else {
                         
                         self.basalEnergyBurned = nil
                         println("Basal energy burned: No value")
-                        
-                    } else {
-                        
-                        self.basalEnergyBurned = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Basal energy burned: \(self.basalEnergyBurned!)")
                         
                     }
                 
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!:
                     
-                    if results.statistics().isEmpty {
+                    if let output = result.sumQuantity() {
                         
-                        self.activeEnergyBurned = nil
-                        println("Active energy burned: No value")
+                        self.activeEnergyBurned = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Active energy burned: \(self.activeEnergyBurned!)")
                         
                     } else {
                         
-                        self.activeEnergyBurned = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Active energy burned: \(self.activeEnergyBurned!)")
+                        self.cycleDistance = nil
+                        println("Active energy burned: No value")
                         
                     }
+                    
+
                 default:
                     println("Type not recognised")
                 }
@@ -403,6 +408,8 @@ class ViewController: UIViewController {
         } else {
             nextSurvey.text! = "Next survey: \(humanReadableNextDate!)"
         }
+        
+        manager.retrieveData()
         
     }
     
