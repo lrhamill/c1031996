@@ -38,9 +38,9 @@ class HealthManager {
         
         for (key, value) in retrievedData {
             
-            let target: NSString = "https://project.cs.cf.ac.uk/HamillLR/mysqli_retrieval.php?Type=\(key)&ID=6497797F-0F65-467A-977D-9D7AFA83A55B"
             
-//            let target: NSString = "https://project.cs.cf.ac.uk/HamillLR/mysqli_retrieval.php?Type=\(key)&ID=\(UIDevice.currentDevice().identifierForVendor.UUIDString)"
+            let target: NSString = "https://project.cs.cf.ac.uk/HamillLR/mysqli_retrieval.php?Type=\(key)&ID=\(UIDevice.currentDevice().identifierForVendor.UUIDString)"
+            
             let URLtarget = target.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
             
             let requestURL = NSURL(string: URLtarget)
@@ -68,12 +68,18 @@ class HealthManager {
                 } else {
                     
                     if let httpResponse = response as? NSHTTPURLResponse {
+                    
                         println("HTTP response: \(httpResponse.statusCode)")
                     }
                     
                     var jsonResult: NSArray? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray
                     
+                    if jsonResult == nil {
+                        return
+                    }
                     for obj in jsonResult! {
+                        
+                        self.retrievedData[key]! = []
                         
                         if var result = obj.integerValue {
                             self.retrievedData[key]?.append(result)
@@ -185,7 +191,7 @@ class HealthManager {
     func getBMI(completion: ((HKSampleQuery!, [AnyObject]!, NSError!) -> Void)!) {
 
         
-        // Build predictae
+        // Build predicate
         let past = NSDate.distantPast() as! NSDate
         let today = NSDate()
         let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: today, options: .None)

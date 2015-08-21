@@ -63,8 +63,8 @@ import UIKit
 //        
 //        sampleDVData! += 1...10
 //        sampleHappyData! += 2...11
-        sampleDVData = GraphView.genRandomData(30, type: .StepData)
-        sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
+//        sampleDVData = GraphView.genRandomData(30, type: .StepData)
+//        sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
     }
     
     func getBestFit() {
@@ -94,6 +94,7 @@ import UIKit
         self.m = (avgXavgY - avgXY) / ((avgX * avgX) - avgXSq)
         
         self.intercept = avgY - (self.m! * avgX)
+
         
         // Calculating r-squared
         
@@ -174,11 +175,13 @@ import UIKit
         
         if sampleDVData == nil || sampleHappyData == nil {
             
-            sampleDVData = [Int]()
-            sampleHappyData = [Int]()
+            return
             
-            sampleDVData! += 2...10
-            sampleHappyData! += 2...10
+//            sampleDVData = [Int]()
+//            sampleHappyData = [Int]()
+//            
+//            sampleDVData! += 2...10
+//            sampleHappyData! += 2...10
 //            sampleDVData = GraphView.genRandomData(30, type: .StepData)
 //            sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
         }
@@ -255,9 +258,11 @@ import UIKit
         
         let bestFit = UIBezierPath()
         
-        let yVal = CGFloat((Double(sampleHappyData!.last!) * self.m!) + self.intercept!) / CGFloat(maxValue) * graphHeight
-        let bestFitY = graphHeight + topBorder - yVal
+        let maxY = sampleHappyData!.reduce( Int.min, combine: { max($0, $1) } )
         let maxX = sampleDVData!.reduce( Int.min, combine: { max($0, $1) } )
+        
+        let yVal = CGFloat((Double(maxX) * self.m!) + self.intercept!) / CGFloat(maxValue) * graphHeight
+        let bestFitY = graphHeight + topBorder - yVal
         
         let endOfBestFit = CGPoint( x:columnXPoint(maxX), y:bestFitY )
 

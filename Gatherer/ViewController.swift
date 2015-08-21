@@ -436,6 +436,8 @@ class ViewController: UIViewController {
             
         }
         
+        manager.retrieveData()
+        
     }
     
     func launchConsent() {
