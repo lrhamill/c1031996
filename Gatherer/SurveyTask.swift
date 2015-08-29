@@ -72,7 +72,7 @@ public var SurveyTask: ORKOrderedTask {
     
     let summaryStep = ORKCompletionStep(identifier: "SummaryStep")
     summaryStep.title = "Thank You"
-    summaryStep.text = "Thank you for completing today's survey. Remember to come back next tomorrow."
+    summaryStep.text = "Thank you for completing today's survey. Remember to come back tomorrow."
     steps += [summaryStep]
     
     

@@ -88,10 +88,20 @@ import UIKit
             
         }
         
-        let avgXY = Double( XY.reduce(0) { $0 + $1 } ) / Double(XY.count)
-        let avgXSq = Double( XSq.reduce(0) { $0 + $1 } ) / Double(XSq.count)
+        // Compiler really doesn't like the following code; was forced to split it up
+        // artificially.
         
-        self.m = (avgXavgY - avgXY) / ((avgX * avgX) - avgXSq)
+        let avgXY = Double( XY.reduce(0) { $0 + $1 } ) / Double(XY.count)
+        var sumXSq: Double = 0
+        
+        for val in XSq {
+            sumXSq += Double(val)
+        }
+        
+        var doubleAvgXSq = sumXSq / Double(XSq.count)
+        doubleAvgXSq = doubleAvgXSq / Double(XSq.count)
+        
+        self.m = (avgXavgY - avgXY) / ((avgX * avgX) - doubleAvgXSq)
         
         self.intercept = avgY - (self.m! * avgX)
 

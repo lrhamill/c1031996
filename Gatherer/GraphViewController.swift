@@ -18,31 +18,20 @@ class GraphViewController : UIViewController {
     
     @IBOutlet weak var graph: GraphView!
     
+    @IBOutlet weak var stepsButton: UIButton!
+    
+    @IBOutlet weak var cycleButton: UIButton!
+    
+    @IBOutlet weak var sleepButton: UIButton!
+    
+    
     var toPass: HealthManager!
     var manager: HealthManager?
     
-//    override func viewWillAppear(animated: Bool) {
-//        
-//        super.viewWillAppear(animated)
-//
-//        maxIndVar.text! = String(maxElement(graph!.sampleDVData!))
-//        midIndVar.text! = String(maxElement(graph!.sampleDVData!)/2)
-//        
-//        graph!.getBestFit()
-//        graph!.setNeedsDisplay()
-//        
-//        if graph!.rSquared == nil {
-//            rSquared.text = "r^2: nil"
-//        } else {
-//            rSquared.text = String(format: "r^2 = %.3f", graph!.rSquared!)
-//        }
-//        
-//        rSquared.setNeedsDisplay()
-//        
-//    }
-    
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        
+        // Redraws the graph when the orientation changes
         
         graph!.setNeedsDisplay()
         
@@ -59,50 +48,56 @@ class GraphViewController : UIViewController {
         
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @IBAction func changeDataType(sender: UIButton) {
         
-        self.manager = toPass
+        genGraphForValue( sender.currentTitle!.lowercaseString )
         
-        let graphValues = self.manager?.dataForGraph("steps")
+    }
+
+    
+    func genGraphForValue( val: String ) {
         
-        println(graphValues)
+        let graphValues = self.manager?.dataForGraph(val)
         
         if let happyVals = graphValues!["happiness"] {
-            if let DVVals = graphValues!["steps"] {
+            if let DVVals = graphValues![val] {
                 
                 if happyVals.count < 3 {
-                     notEnoughData()
-//                    graph!.sampleHappyData = [1, 2, 3, 4, 5]
-//                    graph!.sampleDVData = [1, 2, 3, 4, 5]
+                    notEnoughData()
                     
                     return
                 } else {
                     
+                    independentVar.text = val
+                    
                     graph!.sampleHappyData = graphValues!["happiness"]
-                    graph!.sampleDVData = graphValues!["steps"]
+                    graph!.sampleDVData = graphValues![val]
                     
                     generateGraph()
                     
                 }
             } else {
-                 notEnoughData()
-//                graph!.sampleHappyData = [1, 2, 3, 4, 5]
-//                graph!.sampleDVData = [1, 2, 3, 4, 5]
-//                
-//                generateGraph()
+                
+                notEnoughData()
                 
                 return
             }
         } else {
-             notEnoughData()
-//            graph!.sampleHappyData = [1, 2, 3, 4, 5]
-//            graph!.sampleDVData = [1, 2, 3, 4, 5]
-//            
-//            generateGraph()
+            
+            notEnoughData()
             
             return
         }
+
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.manager = toPass
+        
+        genGraphForValue("steps")
         
     }
  

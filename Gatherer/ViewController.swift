@@ -80,9 +80,7 @@ extension ViewController : ORKTaskViewControllerDelegate {
                 )
                 
                 components.day++
-                components.hour = 16
-                components.minute = 0
-                components.second = 0
+                components.hour -= 2
                 
                 println(calendar.dateFromComponents(components))
                 nextDate = calendar.dateFromComponents(components)
@@ -436,6 +434,7 @@ class ViewController: UIViewController {
             
         }
         
+        println("ID: \(UIDevice.currentDevice().identifierForVendor.UUIDString)")
         manager.retrieveData()
         
     }
@@ -458,7 +457,7 @@ class ViewController: UIViewController {
             
             if nextDate!.compare(date) == NSComparisonResult.OrderedDescending {
                 
-                let tooEarly = UIAlertController(title: "Try Later", message: "You have already completed the task for today. Come back at 4PM or later the day after you complete the task.", preferredStyle: UIAlertControllerStyle.Alert)
+                let tooEarly = UIAlertController(title: "Try Later", message: "You have already completed the task recently. Come back at least 22 hours after completing the task.", preferredStyle: UIAlertControllerStyle.Alert)
                 
                 tooEarly.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in return } ))
                 

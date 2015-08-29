@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1vC-vj-sU0">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="1vC-vj-sU0">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -188,26 +188,62 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="r = 0.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5yr-EW-y17">
                                 <rect key="frame" x="16" y="514" width="59" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H0a-0G-83m">
+                                <rect key="frame" x="16" y="543" width="40" height="30"/>
+                                <state key="normal" title="Steps">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeDataType:" destination="r0c-8I-oxe" eventType="touchUpInside" id="hsO-1H-Ufn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oHX-dl-dXC">
+                                <rect key="frame" x="545" y="543" width="39" height="30"/>
+                                <state key="normal" title="Sleep">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeDataType:" destination="r0c-8I-oxe" eventType="touchUpInside" id="pzD-uj-bL8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WDg-ig-MVu">
+                                <rect key="frame" x="281" y="543" width="39" height="30"/>
+                                <state key="normal" title="Cycle">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="changeDataType:" destination="r0c-8I-oxe" eventType="touchUpInside" id="cdV-4X-Emn"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="WDg-ig-MVu" firstAttribute="centerX" secondItem="Izc-CK-CCK" secondAttribute="centerX" id="CBv-Mv-852"/>
                             <constraint firstItem="5yr-EW-y17" firstAttribute="top" secondItem="Izc-CK-CCK" secondAttribute="bottom" constant="8" symbolic="YES" id="L1m-Lr-fIN"/>
                             <constraint firstItem="Izc-CK-CCK" firstAttribute="top" secondItem="bkW-fo-Nqp" secondAttribute="bottom" constant="8" symbolic="YES" id="L6B-0A-bd4"/>
+                            <constraint firstItem="H0a-0G-83m" firstAttribute="leading" secondItem="5yr-EW-y17" secondAttribute="leading" id="LPu-5M-xsc"/>
+                            <constraint firstItem="oHX-dl-dXC" firstAttribute="centerY" secondItem="H0a-0G-83m" secondAttribute="centerY" id="Lvd-lZ-TfW"/>
                             <constraint firstItem="Izc-CK-CCK" firstAttribute="trailing" secondItem="dYw-TY-X3K" secondAttribute="trailingMargin" id="SG4-yb-ohf"/>
+                            <constraint firstItem="NFh-3w-Oev" firstAttribute="top" secondItem="oHX-dl-dXC" secondAttribute="bottom" constant="27" id="eCC-h9-pBX"/>
                             <constraint firstItem="Izc-CK-CCK" firstAttribute="leading" secondItem="dYw-TY-X3K" secondAttribute="leadingMargin" id="pjh-v2-nJI"/>
+                            <constraint firstItem="WDg-ig-MVu" firstAttribute="baseline" secondItem="H0a-0G-83m" secondAttribute="baseline" id="rcn-FD-KrY"/>
+                            <constraint firstItem="oHX-dl-dXC" firstAttribute="trailing" secondItem="Izc-CK-CCK" secondAttribute="trailing" id="sXN-zG-RG8"/>
                             <constraint firstItem="NFh-3w-Oev" firstAttribute="top" secondItem="Izc-CK-CCK" secondAttribute="bottom" constant="94" id="zYy-XA-8UL"/>
                             <constraint firstItem="5yr-EW-y17" firstAttribute="leading" secondItem="Izc-CK-CCK" secondAttribute="leading" id="zda-Uk-4sP"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cycleButton" destination="WDg-ig-MVu" id="Vtq-26-qFb"/>
                         <outlet property="graph" destination="Izc-CK-CCK" id="9oT-Qt-Bb1"/>
                         <outlet property="independentVar" destination="utB-ky-5aX" id="w27-s3-vkP"/>
                         <outlet property="maxIndVar" destination="lBj-bj-w64" id="9xv-Hl-nP3"/>
                         <outlet property="midIndVar" destination="1ks-zI-W41" id="t5J-Bh-x2v"/>
                         <outlet property="rSquared" destination="5yr-EW-y17" id="2Nj-Va-Mb4"/>
+                        <outlet property="sleepButton" destination="oHX-dl-dXC" id="Lkj-Gc-s0u"/>
+                        <outlet property="stepsButton" destination="H0a-0G-83m" id="edn-Eb-cd0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ans-iq-em7" userLabel="First Responder" sceneMemberID="firstResponder"/>

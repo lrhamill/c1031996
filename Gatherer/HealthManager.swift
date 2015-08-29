@@ -77,16 +77,22 @@ class HealthManager {
                     if jsonResult == nil {
                         return
                     }
+                    
+                    var tempArray: [Int?] = []
+
                     for obj in jsonResult! {
                         
-                        self.retrievedData[key]! = []
+                        // self.retrievedData[key]! = []
                         
                         if var result = obj.integerValue {
-                            self.retrievedData[key]?.append(result)
+                            tempArray.append(result)
                         } else {
-                            self.retrievedData[key]?.append(nil)
+                            tempArray.append(nil)
                         }
+                        
                     }
+                    
+                    self.retrievedData[key]! = tempArray
                     
                     println(self.retrievedData)
                     
