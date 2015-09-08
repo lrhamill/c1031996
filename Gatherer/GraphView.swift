@@ -11,7 +11,7 @@ import UIKit
 
 @IBDesignable class GraphView: UIView {
     
-    var sampleDVData: [Int]?
+    var sampleIVData: [Int]?
     var sampleHappyData: [Int]?
     
     var rSquared: Double?
@@ -51,19 +51,19 @@ import UIKit
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        sampleDVData = GraphView.genRandomData(30, type: .StepData)
+//        sampleIVData = GraphView.genRandomData(30, type: .StepData)
 //        sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
     }
     
     required init(coder decoder: NSCoder) {
         super.init(coder: decoder)
         
-//        sampleDVData = [Int]()
+//        sampleIVData = [Int]()
 //        sampleHappyData = [Int]()
 //        
-//        sampleDVData! += 1...10
+//        sampleIVData! += 1...10
 //        sampleHappyData! += 2...11
-//        sampleDVData = GraphView.genRandomData(30, type: .StepData)
+//        sampleIVData = GraphView.genRandomData(30, type: .StepData)
 //        sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
     }
     
@@ -71,8 +71,9 @@ import UIKit
         
         // Calculates gradient (m) and intercept of best fit line
         
-        let avgX = Double( sampleDVData!.reduce(0) { $0 + $1 } ) / Double(sampleDVData!.count)
+        let avgX = Double( sampleIVData!.reduce(0) { $0 + $1 } ) / Double(sampleIVData!.count)
         let avgY = Double( sampleHappyData!.reduce(0) { $0 + $1 } ) / Double(sampleHappyData!.count)
+        
         let avgXavgY = avgX * avgY
         
         var XY = [Int]()
@@ -80,7 +81,7 @@ import UIKit
         
         var i = 0
         
-        for item in sampleDVData! {
+        for item in sampleIVData! {
             
             XY.append(item * sampleHappyData![i])
             XSq.append(item * item)
@@ -98,8 +99,7 @@ import UIKit
             sumXSq += Double(val)
         }
         
-        var doubleAvgXSq = sumXSq / Double(XSq.count)
-        doubleAvgXSq = doubleAvgXSq / Double(XSq.count)
+        let doubleAvgXSq = sumXSq / Double(XSq.count)
         
         self.m = (avgXavgY - avgXY) / ((avgX * avgX) - doubleAvgXSq)
         
@@ -112,17 +112,17 @@ import UIKit
         
         // Populate array of predicted values from our observed step data and the best fit line
         
-        for val in sampleDVData! {
+        for val in sampleIVData! {
             
             let predVal = Double(val) * self.m! + self.intercept!
             predictedY.append(predVal)
             
         }
         
-        // Now generate array of squared error and difference from mean values
+        // Now generate squared error and difference from mean values
         
-        var squaredError = [Double]()
-        var fromMean = [Double]()
+        var sumSquaredError: Double = 0
+        var sumFromMean: Double = 0
         i = 0
         
         for val in sampleHappyData! {
@@ -131,8 +131,8 @@ import UIKit
             let valError = pow( ( Double(val) - predictedY[i] ), 2 )
             let meanDiff = pow( ( Double(val) - avgY ), 2 )
             
-            squaredError.append(valError)
-            fromMean.append(meanDiff)
+            sumSquaredError += valError
+            sumFromMean += meanDiff
             
             i++
             
@@ -140,10 +140,7 @@ import UIKit
         
         // Run the r-squared formula
         
-        let sumSqErr = squaredError.reduce(0, combine: +) // Find the sum of an array
-        let sumFromMean = fromMean.reduce(0, combine: +)
-        
-        rSquared = 1 - ( sumSqErr /  sumFromMean )
+        rSquared = 1 - ( sumSquaredError /  sumFromMean )
         
         
     }
@@ -183,16 +180,16 @@ import UIKit
             endPoint,
             0)        
         
-        if sampleDVData == nil || sampleHappyData == nil {
+        if sampleIVData == nil || sampleHappyData == nil {
             
             return
             
-//            sampleDVData = [Int]()
+//            sampleIVData = [Int]()
 //            sampleHappyData = [Int]()
 //            
-//            sampleDVData! += 2...10
+//            sampleIVData! += 2...10
 //            sampleHappyData! += 2...10
-//            sampleDVData = GraphView.genRandomData(30, type: .StepData)
+//            sampleIVData = GraphView.genRandomData(30, type: .StepData)
 //            sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
         }
 
@@ -201,7 +198,7 @@ import UIKit
         
         let margin:CGFloat = 20.0
         let graphWidth = width - margin * 2 - 4
-        let maxSteps = maxElement(sampleDVData!)
+        let maxSteps = maxElement(sampleIVData!)
         var columnXPoint = { (graphPoint:Int) -> CGFloat in
             //Calculate gap between points
             var x:CGFloat = CGFloat(graphPoint) / CGFloat(maxSteps) * graphWidth
@@ -249,7 +246,7 @@ import UIKit
         // Add points
         
         for i in 0..<sampleHappyData!.count {
-            var point = CGPoint(x:columnXPoint(sampleDVData![i]), y:columnYPoint(sampleHappyData![i]))
+            var point = CGPoint(x:columnXPoint(sampleIVData![i]), y:columnYPoint(sampleHappyData![i]))
             
             point.x -= 5.0/2
             point.y -= 5.0/2
@@ -269,7 +266,7 @@ import UIKit
         let bestFit = UIBezierPath()
         
         let maxY = sampleHappyData!.reduce( Int.min, combine: { max($0, $1) } )
-        let maxX = sampleDVData!.reduce( Int.min, combine: { max($0, $1) } )
+        let maxX = sampleIVData!.reduce( Int.min, combine: { max($0, $1) } )
         
         let yVal = CGFloat((Double(maxX) * self.m!) + self.intercept!) / CGFloat(maxValue) * graphHeight
         let bestFitY = graphHeight + topBorder - yVal

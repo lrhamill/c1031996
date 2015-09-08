@@ -71,7 +71,7 @@ class GraphViewController : UIViewController {
                     independentVar.text = val
                     
                     graph!.sampleHappyData = graphValues!["happiness"]
-                    graph!.sampleDVData = graphValues![val]
+                    graph!.sampleIVData = graphValues![val]
                     
                     generateGraph()
                     
@@ -103,8 +103,8 @@ class GraphViewController : UIViewController {
  
     func generateGraph() {
         
-        maxIndVar.text! = String(maxElement(graph!.sampleDVData!))
-        midIndVar.text! = String(maxElement(graph!.sampleDVData!)/2)
+        maxIndVar.text! = String(maxElement(graph!.sampleIVData!))
+        midIndVar.text! = String(maxElement(graph!.sampleIVData!)/2)
         
         graph!.getBestFit()
         graph!.setNeedsDisplay()
