@@ -9,8 +9,7 @@
 import ResearchKit
 
 public var SurveyTask: ORKOrderedTask {
-    
-    // N.B.
+
     
     var steps = [ORKStep]()
     

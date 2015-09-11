@@ -178,6 +178,7 @@ class ViewController: UIViewController {
     
     // Code block that can be passed to HealthManager.dailyQuantitySum to print results.
     // Used for debugging.
+    
     var printQuantitySum: (query: HKStatisticsCollectionQuery!, results: HKStatisticsCollection!, error: NSError!) -> Void = {
         
         (query, results, error) in
@@ -504,35 +505,24 @@ class ViewController: UIViewController {
         let arrayOfIntTypes = [stepCount, cycleDistance, energyConsumed, basalEnergyBurned, activeEnergyBurned, sleep, age]
         
         var processedValues = [String]()
-        var jsonValues = [JSON]()
-        let nullJSON = JSON("null")
         
         for item in arrayOfIntTypes {
             if item != nil {
-                let curItem = JSON(item!)
-                jsonValues.append(curItem)
                 processedValues.append("\(item!)")
             } else {
-                jsonValues.append(nullJSON)
                 processedValues.append("null")
             }
         }
         
         if bioSex != nil {
-            let sexJSON = JSON(bioSex!)
-            jsonValues.append(sexJSON)
             processedValues.append("\(bioSex!)")
         } else {
-            jsonValues.append(nullJSON)
             processedValues.append("null")
         }
         
         if BMI != nil {
-            let BMIJSON = JSON(BMI!)
-            jsonValues.append(BMIJSON)
             processedValues.append("\(BMI!)")
         } else {
-            jsonValues.append(nullJSON)
             processedValues.append("null")
         }
         

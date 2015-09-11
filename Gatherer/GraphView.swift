@@ -184,13 +184,6 @@ import UIKit
             
             return
             
-//            sampleIVData = [Int]()
-//            sampleHappyData = [Int]()
-//            
-//            sampleIVData! += 2...10
-//            sampleHappyData! += 2...10
-//            sampleIVData = GraphView.genRandomData(30, type: .StepData)
-//            sampleHappyData = GraphView.genRandomData(30, type: .HappyData)
         }
 
         
@@ -217,8 +210,7 @@ import UIKit
             y = graphHeight + topBorder - y // Flip the graph
             return y
         }
-        
-        //Draw horizontal graph lines on the top of everything
+
         var linePath = UIBezierPath()
         
         //top line
