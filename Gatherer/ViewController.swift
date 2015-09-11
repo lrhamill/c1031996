@@ -29,7 +29,10 @@ extension ViewController : ORKTaskViewControllerDelegate {
                 self.consented = true
                 
                 taskViewController.dismissViewControllerAnimated(true, completion: nil)
+                authHealthkit()
+                
                 return
+                
 
             }
  
@@ -77,9 +80,7 @@ extension ViewController : ORKTaskViewControllerDelegate {
                 )
                 
                 components.day++
-                components.hour = 16
-                components.minute = 0
-                components.second = 0
+                components.hour -= 2
                 
                 println(calendar.dateFromComponents(components))
                 nextDate = calendar.dateFromComponents(components)
@@ -171,11 +172,13 @@ class ViewController: UIViewController {
         
         return formatter.stringFromDate(nextDate!)
     }
+
     
     var manager = HealthManager()
     
     // Code block that can be passed to HealthManager.dailyQuantitySum to print results.
     // Used for debugging.
+    
     var printQuantitySum: (query: HKStatisticsCollectionQuery!, results: HKStatisticsCollection!, error: NSError!) -> Void = {
         
         (query, results, error) in
@@ -188,6 +191,17 @@ class ViewController: UIViewController {
             println("\(Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit())))")
         }
         
+    }
+    
+    
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!) {
+        if (segue.identifier == "graphSegue") {
+            var svc = segue.destinationViewController as! GraphViewController;
+            
+            svc.toPass = self.manager
+            
+        }
     }
     
     func updateDistance() {
@@ -210,71 +224,76 @@ class ViewController: UIViewController {
                 switch item {
                     
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierStepCount)!:
-                    if results.statistics().isEmpty {
+                    
+                    if let output = result.sumQuantity() {
                         
-                        self.stepCount = nil
-                        println("No value")
+                        self.stepCount = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Steps: \(self.stepCount!)")
                         
                     } else {
-
-                        self.stepCount = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Step count: \(self.stepCount!)")
+                        
+                        self.stepCount = nil
+                        println("Steps: No value")
+                        
                     }
-                
+                    
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDistanceCycling)!:
                     
-                    if results.statistics().isEmpty {
+                    if let output = result.sumQuantity() {
+                        
+                        self.cycleDistance = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Cycling: \(self.cycleDistance!)")
+                        
+                    } else {
                         
                         self.cycleDistance = nil
                         println("Cycling: No value")
                         
-                    } else {
-                        
-                        self.cycleDistance = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Step count: \(self.cycleDistance!)")
-            
                     }
+                    
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierDietaryEnergyConsumed)!:
                     
-                    if results.statistics().isEmpty {
+                    if let output = result.sumQuantity() {
+                        
+                        self.energyConsumed = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Energy consumed: \(self.energyConsumed!)")
+                        
+                    } else {
                         
                         self.energyConsumed = nil
                         println("Energy consumed: No value")
                         
-                    } else {
-                        
-                        self.energyConsumed = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Energy consumed: \(self.energyConsumed!)")
-                        
                     }
-                
+                    
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierBasalEnergyBurned)!:
                     
-                    if results.statistics().isEmpty {
+                    if let output = result.sumQuantity() {
+                        
+                        self.basalEnergyBurned = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Basal energy burned: \(self.basalEnergyBurned!)")
+                        
+                    } else {
                         
                         self.basalEnergyBurned = nil
                         println("Basal energy burned: No value")
-                        
-                    } else {
-                        
-                        self.basalEnergyBurned = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Basal energy burned: \(self.basalEnergyBurned!)")
                         
                     }
                 
                 case HKObjectType.quantityTypeForIdentifier(HKQuantityTypeIdentifierActiveEnergyBurned)!:
                     
-                    if results.statistics().isEmpty {
+                    if let output = result.sumQuantity() {
                         
-                        self.activeEnergyBurned = nil
-                        println("Active energy burned: No value")
+                        self.activeEnergyBurned = Int(output.doubleValueForUnit(HKUnit.countUnit()))
+                        println("Active energy burned: \(self.activeEnergyBurned!)")
                         
                     } else {
                         
-                        self.activeEnergyBurned = Int(results.statistics()[0].sumQuantity().doubleValueForUnit(HKUnit.countUnit()))
-                        println("Active energy burned: \(self.activeEnergyBurned!)")
+                        self.cycleDistance = nil
+                        println("Active energy burned: No value")
                         
                     }
+                    
+
                 default:
                     println("Type not recognised")
                 }
@@ -383,16 +402,13 @@ class ViewController: UIViewController {
         
         super.viewDidLoad()
         
-        HKCheck.lineBreakMode = .ByWordWrapping
-        HKCheck.numberOfLines = 0
-        
-        authHealthkit()
-        
         if nextDate == nil || nextDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending {
             nextSurvey.text! = "Survey ready!"
         } else {
             nextSurvey.text! = "Next survey: \(humanReadableNextDate!)"
         }
+        
+        manager.retrieveData()
         
     }
     
@@ -419,6 +435,9 @@ class ViewController: UIViewController {
             
         }
         
+        println("ID: \(UIDevice.currentDevice().identifierForVendor.UUIDString)")
+        manager.retrieveData()
+        
     }
     
     func launchConsent() {
@@ -439,7 +458,7 @@ class ViewController: UIViewController {
             
             if nextDate!.compare(date) == NSComparisonResult.OrderedDescending {
                 
-                let tooEarly = UIAlertController(title: "Try Later", message: "You have already completed the task for today. Come back at 4PM or later the day after you complete the task.", preferredStyle: UIAlertControllerStyle.Alert)
+                let tooEarly = UIAlertController(title: "Try Later", message: "You have already completed the task recently. Come back at least 22 hours after completing the task.", preferredStyle: UIAlertControllerStyle.Alert)
                 
                 tooEarly.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in return } ))
                 
@@ -486,35 +505,24 @@ class ViewController: UIViewController {
         let arrayOfIntTypes = [stepCount, cycleDistance, energyConsumed, basalEnergyBurned, activeEnergyBurned, sleep, age]
         
         var processedValues = [String]()
-        var jsonValues = [JSON]()
-        let nullJSON = JSON("null")
         
         for item in arrayOfIntTypes {
             if item != nil {
-                let curItem = JSON(item!)
-                jsonValues.append(curItem)
                 processedValues.append("\(item!)")
             } else {
-                jsonValues.append(nullJSON)
                 processedValues.append("null")
             }
         }
         
         if bioSex != nil {
-            let sexJSON = JSON(bioSex!)
-            jsonValues.append(sexJSON)
             processedValues.append("\(bioSex!)")
         } else {
-            jsonValues.append(nullJSON)
             processedValues.append("null")
         }
         
         if BMI != nil {
-            let BMIJSON = JSON(BMI!)
-            jsonValues.append(BMIJSON)
             processedValues.append("\(BMI!)")
         } else {
-            jsonValues.append(nullJSON)
             processedValues.append("null")
         }
         

@@ -22,9 +22,10 @@
 		559E18021B2AEF29008E7A53 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 559E18011B2AEF29008E7A53 /* HealthKit.framework */; };
 		559E18051B2B21E6008E7A53 /* ConsentStatus.plist in Resources */ = {isa = PBXBuildFile; fileRef = 559E18041B2B21E6008E7A53 /* ConsentStatus.plist */; };
 		559E18071B305E31008E7A53 /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559E18061B305E31008E7A53 /* HealthManager.swift */; };
-		55ACFA8F1B5A8D6D00BB05C3 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55ACFA8E1B5A8D6D00BB05C3 /* SwiftyJSON.swift */; };
 		55B0144B1B26D60300CEBA93 /* SurveyTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B0144A1B26D60300CEBA93 /* SurveyTask.swift */; };
 		55BB8C421B4178BD000BDCE5 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55BB8C411B4178BD000BDCE5 /* BorderButton.swift */; };
+		55CA91E51B63F54D009922CC /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CA91E41B63F54D009922CC /* GraphViewController.swift */; };
+		55CA91E91B63F66B009922CC /* GraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55CA91E81B63F66B009922CC /* GraphView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,9 +94,10 @@
 		559E18031B2AEF29008E7A53 /* Gatherer.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Gatherer.entitlements; sourceTree = "<group>"; };
 		559E18041B2B21E6008E7A53 /* ConsentStatus.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ConsentStatus.plist; sourceTree = "<group>"; };
 		559E18061B305E31008E7A53 /* HealthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
-		55ACFA8E1B5A8D6D00BB05C3 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		55B0144A1B26D60300CEBA93 /* SurveyTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyTask.swift; sourceTree = "<group>"; };
 		55BB8C411B4178BD000BDCE5 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderButton.swift; sourceTree = "<group>"; };
+		55CA91E41B63F54D009922CC /* GraphViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
+		55CA91E81B63F66B009922CC /* GraphView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,11 +150,12 @@
 				5536873A1B2859D100D15932 /* SavedSurveys.xcdatamodeld */,
 				5527FF7A1B3AB080002F5CF1 /* Result.swift */,
 				5596C1141B206A4E0032B08F /* ViewController.swift */,
-				55ACFA8E1B5A8D6D00BB05C3 /* SwiftyJSON.swift */,
 				55BB8C411B4178BD000BDCE5 /* BorderButton.swift */,
 				5596C14C1B206E6C0032B08F /* ConsentDocument.swift */,
 				5596C14E1B2075410032B08F /* ConsentTask.swift */,
 				559E18061B305E31008E7A53 /* HealthManager.swift */,
+				55CA91E41B63F54D009922CC /* GraphViewController.swift */,
+				55CA91E81B63F66B009922CC /* GraphView.swift */,
 				5596C1161B206A4E0032B08F /* Main.storyboard */,
 				5596C1191B206A4E0032B08F /* Images.xcassets */,
 				5596C11B1B206A4E0032B08F /* LaunchScreen.xib */,
@@ -334,13 +337,14 @@
 				5596C1151B206A4E0032B08F /* ViewController.swift in Sources */,
 				5596C14F1B2075410032B08F /* ConsentTask.swift in Sources */,
 				55BB8C421B4178BD000BDCE5 /* BorderButton.swift in Sources */,
-				55ACFA8F1B5A8D6D00BB05C3 /* SwiftyJSON.swift in Sources */,
 				55B0144B1B26D60300CEBA93 /* SurveyTask.swift in Sources */,
 				5596C14D1B206E6C0032B08F /* ConsentDocument.swift in Sources */,
 				5596C1131B206A4E0032B08F /* AppDelegate.swift in Sources */,
 				5536873C1B2859D100D15932 /* SavedSurveys.xcdatamodeld in Sources */,
+				55CA91E51B63F54D009922CC /* GraphViewController.swift in Sources */,
 				5527FF7B1B3AB080002F5CF1 /* Result.swift in Sources */,
 				559E18071B305E31008E7A53 /* HealthManager.swift in Sources */,
+				55CA91E91B63F66B009922CC /* GraphView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

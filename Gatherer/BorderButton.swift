@@ -5,6 +5,8 @@
 //  Created by Liam Hamill on 29/06/2015.
 //  Copyright (c) 2015 Liam Hamill. All rights reserved.
 //
+//  UIButton with a border.
+//
 
 import Foundation
 import UIKit

@@ -8,6 +8,7 @@
 
 import Foundation
 import HealthKit
+import UIKit
 
 class HealthManager {
     
@@ -29,8 +30,128 @@ class HealthManager {
     
     )
 
+    var retrievedData: [String: [Int?]] = ["steps": [], "cycle": [], "sleep": [], "happiness": []]
+    
+    func retrieveData () {
+        
+        // Retrieves all data types from the server
+        
+        for (key, value) in retrievedData {
+            
+            
+            let target: NSString = "https://project.cs.cf.ac.uk/HamillLR/mysqli_retrieval.php?Type=\(key)&ID=\(UIDevice.currentDevice().identifierForVendor.UUIDString)"
+            
+            let URLtarget = target.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+            
+            let requestURL = NSURL(string: URLtarget)
+            
+            var request = NSMutableURLRequest(URL: requestURL!)
+            request.HTTPMethod = "GET"
+            
+            let username = "c1031996"
+            let password = "Jumbles12"
+            let loginString = NSString(format: "%@:%@", username, password)
+            let loginData: NSData = loginString.dataUsingEncoding(NSUTF8StringEncoding)!
+            let base64LoginString = loginData.base64EncodedStringWithOptions(nil)
+            
+            request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
+            
+            let session = NSURLSession.sharedSession()
+            let task = session.dataTaskWithRequest(request) {
+                
+                data, response, err in
+                
+                if ( err != nil ) {
+                    
+                    println(err?.description)
+                
+                } else {
+                    
+                    if let httpResponse = response as? NSHTTPURLResponse {
+                    
+                        println("HTTP response: \(httpResponse.statusCode)")
+                    }
+                    
+                    var jsonResult: NSArray? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers, error: nil) as? NSArray
+                    
+                    if jsonResult == nil {
+                        return
+                    }
+                    
+                    var tempArray: [Int?] = []
+
+                    for obj in jsonResult! {
+                        
+                        // self.retrievedData[key]! = []
+                        
+                        if var result = obj.integerValue {
+                            tempArray.append(result)
+                        } else {
+                            tempArray.append(nil)
+                        }
+                        
+                    }
+                    
+                    self.retrievedData[key]! = tempArray
+                    
+                    println(self.retrievedData)
+                    
+                }
+                
+            }
+            
+            task.resume()
+        
+        }
+            
+            
+    }
+    
+    func dataForGraph(dataType: String) -> [String: [Int]] {
+        
+        let validTypes: Set<String> = ["steps", "cycle", "sleep"]
+        var returnDict: Dictionary<String, [Int]> = [:]
+        
+        if !validTypes.contains(dataType) {
+            
+            // Invalid input, abort
+            return returnDict
+            
+        }
+        
+        var hapArr = [Int]()
+        var DVArr = [Int]()
+        
+        let arr = retrievedData[dataType]!
+        
+        
+        var i = 0
+        
+        while i < arr.count {
+            
+            if let val: Int = arr[i] {
+                if let happiness: Int = retrievedData["happiness"]![i] {
+
+                    hapArr.append(happiness)
+                    DVArr.append(val)
+                }
+            }
+            
+            returnDict["happiness"] = hapArr
+            returnDict[dataType] = DVArr
+            
+            i++
+            
+        }
+        
+        println(returnDict)
+        return returnDict
+    }
+    
     func authoriseHK(completion: ((success:Bool, error:NSError!) -> Void)!) {
 
+        // Authorises HealthKit
+        
         if !HKHealthStore.isHealthDataAvailable() {
             
             println("No health data is available")
@@ -68,9 +189,8 @@ class HealthManager {
         // Run query
         let query = HKStatisticsCollectionQuery(quantityType: sampleType, quantitySamplePredicate: nil, options: .CumulativeSum, anchorDate: yesterday, intervalComponents: interval)
         
-        if completion != nil {
-            query.initialResultsHandler = completion
-        }
+        // Run query
+        let query = HKStatisticsQuery(quantityType: sampleType, quantitySamplePredicate: predicate, options: .CumulativeSum, completionHandler: completion)
         
         store.executeQuery(query)
         
@@ -79,7 +199,7 @@ class HealthManager {
     func getBMI(completion: ((HKSampleQuery!, [AnyObject]!, NSError!) -> Void)!) {
 
         
-        // Build predictae
+        // Build predicate
         let past = NSDate.distantPast() as! NSDate
         let today = NSDate()
         let mostRecentPredicate = HKQuery.predicateForSamplesWithStartDate(past, endDate: today, options: .None)
@@ -162,4 +282,6 @@ class HealthManager {
             return nil
         }
     }
+    
+    
 }

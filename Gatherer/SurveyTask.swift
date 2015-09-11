@@ -9,8 +9,7 @@
 import ResearchKit
 
 public var SurveyTask: ORKOrderedTask {
-    
-    // N.B.
+
     
     var steps = [ORKStep]()
     
@@ -40,10 +39,10 @@ public var SurveyTask: ORKOrderedTask {
         ORKQuestionStep(identifier: "SQ5", title: "Today, I’ve been feeling relaxed.", answer: positiveAnswerFormat),
         ORKQuestionStep(identifier: "SQ6", title: "Today, I’ve been dealing with problems well.", answer: positiveAnswerFormat),
         ORKQuestionStep(identifier: "SQ7", title: "Today, I’ve been thinking clearly.", answer: positiveAnswerFormat),
-        ORKQuestionStep(identifier: "SQ8", title: "Today, I’ve been feeling good about myself .", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ8", title: "Today, I’ve been feeling good about myself.", answer: positiveAnswerFormat),
         ORKQuestionStep(identifier: "SQ9", title: "Today, I’ve been feeling close to other people.", answer: positiveAnswerFormat),
         ORKQuestionStep(identifier: "SQ10", title: "Today, I’ve been feeling confident.", answer: positiveAnswerFormat),
-        ORKQuestionStep(identifier: "SQ11", title: "Today, I’ve been able to make up my own mind about things .", answer: positiveAnswerFormat),
+        ORKQuestionStep(identifier: "SQ11", title: "Today, I’ve been able to make up my own mind about things.", answer: positiveAnswerFormat),
         ORKQuestionStep(identifier: "SQ12", title: "Today, I’ve been feeling loved.", answer: positiveAnswerFormat),
         ORKQuestionStep(identifier: "SQ13", title: "Today, I’ve been interested in new things.", answer: positiveAnswerFormat),
         ORKQuestionStep(identifier: "SQ14", title: "Today, I’ve been feeling cheerful.", answer: positiveAnswerFormat),
@@ -72,7 +71,7 @@ public var SurveyTask: ORKOrderedTask {
     
     let summaryStep = ORKCompletionStep(identifier: "SummaryStep")
     summaryStep.title = "Thank You"
-    summaryStep.text = "Thank you for completing today's survey. Remember to come back next tomorrow."
+    summaryStep.text = "Thank you for completing today's survey. Remember to come back tomorrow."
     steps += [summaryStep]
     
     
