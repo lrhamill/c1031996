@@ -219,7 +219,7 @@ class ViewController: UIViewController {
             
         for item in quantityTypes {
             self.manager.dailyQuantitySum(item) {
-                (query, results, error) in
+                (query, result, error) in
                 
                 switch item {
                     
@@ -398,20 +398,6 @@ class ViewController: UIViewController {
 
     }
     
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        
-        if nextDate == nil || nextDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending {
-            nextSurvey.text! = "Survey ready!"
-        } else {
-            nextSurvey.text! = "Next survey: \(humanReadableNextDate!)"
-        }
-        
-        manager.retrieveData()
-        
-    }
-    
     override func viewDidAppear(animated: Bool) {
         
         // Initialise
@@ -436,6 +422,15 @@ class ViewController: UIViewController {
         }
         
         println("ID: \(UIDevice.currentDevice().identifierForVendor.UUIDString)")
+        
+        if nextDate == nil || nextDate!.compare(NSDate()) == NSComparisonResult.OrderedAscending {
+            nextSurvey.text! = "Survey ready!"
+        } else {
+            
+            println("NextDate comparison: \(nextDate!.compare(NSDate()))")
+            nextSurvey.text! = "Next survey: \(humanReadableNextDate!)"
+        }
+        
         manager.retrieveData()
         
     }

@@ -177,17 +177,15 @@ class HealthManager {
 
     }
     
-    func dailyQuantitySum(sampleType: HKQuantityType!, completion: ((HKStatisticsCollectionQuery!, HKStatisticsCollection!, NSError!) -> Void)!) {
+    func dailyQuantitySum(sampleType: HKQuantityType!, completion: ((HKStatisticsQuery!, HKStatistics!, NSError!) -> Void)!) {
         
         // Get dates for this week
         let calendar = NSCalendar()
         let today = NSDate()
         let yesterday = today.dateByAddingTimeInterval(-24 * 60 * 60)
-        let interval = NSDateComponents()
-        interval.day = 7
         
-        // Run query
-        let query = HKStatisticsCollectionQuery(quantityType: sampleType, quantitySamplePredicate: nil, options: .CumulativeSum, anchorDate: yesterday, intervalComponents: interval)
+        let predicate = HKQuery.predicateForSamplesWithStartDate(yesterday,
+            endDate: today, options: .StrictStartDate)
         
         // Run query
         let query = HKStatisticsQuery(quantityType: sampleType, quantitySamplePredicate: predicate, options: .CumulativeSum, completionHandler: completion)
